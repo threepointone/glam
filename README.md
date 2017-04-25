@@ -14,6 +14,7 @@ glam
 
 input -
 ```jsx
+// index.js
 
 import css from '@threepointone/glam'
 
@@ -33,6 +34,8 @@ let myclass = css`
 
 output -
 ```jsx
+// index.js
+
 import css from 'glam'
 
 let myColor = '#ab67ee'
@@ -42,6 +45,7 @@ let myClass = css('css-1bh6s', [myColor, rad])
 ```
 
 ```css
+// index.js.css
 
 .css-1bh6s {
   color: red
@@ -57,6 +61,27 @@ let myClass = css('css-1bh6s', [myColor, rad])
   --css-1bh6s-0: #ab67ee;
   --css-1bh6s-1: 20px;
 }
+
+```
+
+zero cost react variant
+---
+
+you could define your own variant, bringing down runtime cost further
+
+```jsx
+function css(cls, vars){
+  return {
+    className: cls,
+    style: vars ? vars.reduce((o, va, i) => (o[`--${cls}-${i}`] = vars[i], o), {}) : {}
+  }
+}
+
+// ...
+
+<div {...css` font-weight:bold; color: ${props.color}; `}>
+  hello!
+</div>
 
 ```
 
