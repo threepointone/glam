@@ -1,6 +1,14 @@
 import React from 'react'
 import { render } from 'react-dom'
-import css from '../src'
+// import css from '../src'
+
+// you can define your own variant 
+function css(cls, vars){
+  return {
+    className: cls,
+    style: vars ? vars.reduce((o, va, i) => (o[`--${cls}-${i}`] = vars[i], o), {}) : {}
+  }
+}
 
 let blue = 'blue'
 
@@ -12,7 +20,7 @@ let cls3 = css`color: ${'yellow'};`
 
 class App extends React.Component{
   render(){
-    return <div className={cls}>
+    return <div {...cls}>
       what up
     </div>
   }
