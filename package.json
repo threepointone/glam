@@ -1,15 +1,18 @@
 {
   "name": "@threepointone/glam",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "css-in-js. again.",
   "main": "lib/index.js",
   "author": "Sunil Pai <threepointone@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "babylon": "^6.17.0",    
-    "touch": "^1.0.0" 
+    "babylon": "^6.17.0",
+    "touch": "^1.0.0"
   },
-  "files": [ "lib", "babel.js" ],
+  "files": [
+    "lib",
+    "babel.js"
+  ],
   "scripts": {
     "start": "webpack-dev-server",
     "build": "babel src -d lib"
