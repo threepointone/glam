@@ -32,7 +32,7 @@ import css from 'glam'
 let myColor = '#ab67ee'
 let rad = '20px'
 
-let myClass = css('x-1bh6s', [myColor, rad]} }) 
+let myClass = css('x-1bh6s', [myColor, rad]) 
 ```
 
 ```css
