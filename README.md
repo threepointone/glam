@@ -50,7 +50,7 @@ let myClass = css('css-1bh6s', [myColor, rad])
   border-radius: var(--css-1bh6s-1);
 }
 
-// dynamically added
+/* dynamically added */
 .vars-h23psd {
   --css-1bh6s-0: #ab67ee;
   --css-1bh6s-1: 20px;
