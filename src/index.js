@@ -22,5 +22,5 @@ function toClass(cls, spec){
 }
 
 export default function css(className, dynamic){
-  return className + ' ' + toClass(className, dynamic)
+  return className + (dynamic.length > 0 ?  (' ' + toClass(className, dynamic)) : '')
 }

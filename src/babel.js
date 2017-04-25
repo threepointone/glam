@@ -60,9 +60,6 @@ module.exports = function({ types: t }){
           
           state.inject()
           
-          // import css file 
-          // assume style/css loader somewhere
-          // css(/* ...css */ 'x-[hash]', [val1, val2])
           let { hash, parsed, stubs } = parser(path)
 
           state.insert(hash, `.x-${hash} { ${parsed} }`)

@@ -1,33 +1,31 @@
 {
   "name": "glam",
   "version": "1.0.0",
-  "description": "glamor, take 2",
+  "description": "css-in-js. again.",
   "main": "lib/index.js",
   "author": "Sunil Pai <threepointone@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-preset-env": "^1.4.0",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
-    "babylon": "^6.17.0",
-    "fbjs": "^0.8.12",
-    "loader-utils": "^1.1.0",
-    "object-assign": "^4.1.1",
-    "postcss": "^5.2.17",
-    "react": "next",
-    "react-dom": "next",
-    "touch": "^1.0.0",
-    "webpack": "^2.4.1",
-    "webpack-dev-server": "^2.4.4"
+    "babylon": "^6.17.0",    
+    "touch": "^1.0.0" 
   },
+  "files": [ "lib", "babel.js" ],
   "scripts": {
     "start": "webpack-dev-server",
     "build": "babel src -d lib"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "postcss": "^5.2.17",
+    "react": "next",
+    "react-dom": "next",
+    "babel-preset-env": "^1.4.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
     "babel-loader": "^7.0.0",
     "css-loader": "^0.28.0",
-    "style-loader": "^0.16.1"
+    "style-loader": "^0.16.1",
+    "webpack": "^2.4.1",
+    "webpack-dev-server": "^2.4.4"
   }
 }
