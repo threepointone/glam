@@ -4,19 +4,25 @@ import fs from 'fs'
 
 import hashify from './hash'
 
-function parse(src){
-  return src
+function getName(str){
+  let regex = /name\s*:\s*([A-Za-z0-9\-_]+)\s*/gm
+  let match = regex.exec(str)
+  if(match){
+    return match[1]
+  }
 }
 
 function parser(path) {
   let code = path.hub.file.code
   let strs = path.node.quasi.quasis.map(x => x.value.cooked)
   let hash = hashify(strs)
-  
+  let name = getName(strs.join('xxx'))
+  if(name) {
+    hash = `${name}-${hash}`
+  }  
 
   let stubs = path.node.quasi.expressions.map(x => code.substring(x.start, x.end))          
   let ctr = 0
-
 
   let src = strs.reduce((arr, str, i) => {
     arr.push(str)
@@ -25,7 +31,7 @@ function parser(path) {
     }
     return arr
   }, []).join('')
-  let parsed = parse(src.trim())
+  let parsed = src.trim()
   return { hash, parsed, stubs }
 }
 

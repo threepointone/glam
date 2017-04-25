@@ -7,6 +7,7 @@ glam
 
 - super fast + small (<2k gz)
 - extracts css out into regular css files 
+- optional readable classnames (eg. `name: myButton;`)
 - use with css ecosystem: postcss, sass, etc 
 - Make Alex Happy (tm)
 
