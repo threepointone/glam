@@ -1,16 +1,18 @@
-glam - spec doc
+[wprk in progress! not everything works]
+
+glam 
 ---
 
-- use the platform (tm)
-- designed for low power devices
-- extracts css out into regular css files 
-- include 'precise' css based on usage 
 - super fast + small (<2k)
-- nested selectors, future facing syntax... the works
-- editor support - linting, syntax highlighting, etc 
+- extracts css out into regular css files 
+- use with css ecosystem: postcss, sass, etc 
 - Make Alex Happy (tm)
-- DCE unused styles 
-- ssr friendly
+
+
+todo
+---
+- DCE
+- ssr
 - source maps?
 - typed om?
 - SC api?
@@ -22,7 +24,8 @@ no
 
 - @apply :( composition will be a *little* harder
 - |||ly, non-value interpolations
-- not "great" browser support
+- nondeterministic resolution
+- not "great" browser support (read - no ie, opera mini, uc)
 
 
 
