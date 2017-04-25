@@ -6,7 +6,7 @@ sheet.inject()
 
 const inserted = {}
 
-function dynamics(cls, vars){
+function dynamic(cls, vars){
   let hash = hashArray(vars)
   if(inserted[hash]) {
     return `vars-${hash}`
@@ -21,5 +21,5 @@ function dynamics(cls, vars){
 }
 
 export default function css(cls, vars){
-  return cls + (vars && vars.length > 0 ?  (' ' + dynamics(cls, vars)) : '')
+  return cls + (vars && vars.length > 0 ?  (' ' + dynamic(cls, vars)) : '')
 }

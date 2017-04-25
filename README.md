@@ -18,16 +18,17 @@ input -
 import css from '@threepointone/glam'
 
 let myColor = '#ab67ee'
-let rad = '20px'
+let radius = '20px'
 
 let myclass = css`
   color: red;
   &:hover {
     font-weight: bold;
     color: ${myColor};
-    border-radius: ${rad};
+    border-radius: ${radius};
   }
 `
+
 ```
 
 output -
@@ -35,7 +36,7 @@ output -
 import css from 'glam'
 
 let myColor = '#ab67ee'
-let rad = '20px'
+let radius = '20px'
 
 let myClass = css('css-1bh6s', [myColor, rad]) 
 ```

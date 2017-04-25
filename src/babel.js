@@ -68,8 +68,8 @@ module.exports = function({ types: t }){
           state.insert(hash, `.${name}-${hash} { ${parsed} }`)
 
           let cls = `'${name}-${hash}'`
-          let dynamic = `[${stubs.join(', ')}]`
-          let newSrc = stubs.length > 0 ? `css(${cls}, ${dynamic})` : `css(${cls})`
+          let vars = `[${stubs.join(', ')}]`
+          let newSrc = stubs.length > 0 ? `css(${cls}, ${vars})` : `css(${cls})`
 
           path.replaceWith(babylon.parse(newSrc, {plugins: ['*']}).program.body[0].expression)
           
