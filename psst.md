@@ -9,27 +9,6 @@ glam
 - Make Alex Happy (tm)
 
 
-todo
----
-- DCE
-- ssr
-- source maps?
-- typed om?
-- SC api?
-- unload styles?
-- wc?
-
-
-no
----
-
-- @apply :( composition will be a *little* harder
-- |||ly, non-value interpolations
-- nondeterministic resolution
-- not "great" browser support (read - no ie, opera mini, uc)
-
-
-
 input -
 ```jsx
 
@@ -82,3 +61,24 @@ usage
 - use style-loader/css-loader/postcss/whatever as you normally would
 - ???
 - profit
+
+
+
+todo
+---
+- DCE
+- ssr
+- source maps?
+- typed om?
+- SC api?
+- unload styles?
+- wc?
+
+
+no
+---
+
+- @apply :( composition will be a *little* harder
+- |||ly, non-value interpolations
+- nondeterministic resolution
+- not "great" browser support (read - no ie, opera mini, uc)
