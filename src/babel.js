@@ -16,10 +16,8 @@ function parser(path) {
   let code = path.hub.file.code
   let strs = path.node.quasi.quasis.map(x => x.value.cooked)
   let hash = hashify(strs)
-  let name = getName(strs.join('xxx'))
-  if(name) {
-    hash = `${name}-${hash}`
-  }  
+  let name = getName(strs.join('xxx')) || 'css'
+  
 
   let stubs = path.node.quasi.expressions.map(x => code.substring(x.start, x.end))          
   let ctr = 0
@@ -27,12 +25,12 @@ function parser(path) {
   let src = strs.reduce((arr, str, i) => {
     arr.push(str)
     if(i !== stubs.length) {
-      arr.push(`var(--css-${hash}-${i})`)
+      arr.push(`var(--${name}-${hash}-${i})`)
     }
     return arr
   }, []).join('')
   let parsed = src.trim()
-  return { hash, parsed, stubs }
+  return { hash, parsed, stubs, name }
 }
 
 module.exports = function({ types: t }){
@@ -66,11 +64,11 @@ module.exports = function({ types: t }){
           
           state.inject()
           
-          let { hash, parsed, stubs } = parser(path)
+          let { hash, parsed, stubs, name } = parser(path)
 
-          state.insert(hash, `.css-${hash} { ${parsed} }`)
+          state.insert(hash, `.${name}-${hash} { ${parsed} }`)
 
-          let cls = `'css-${hash}'`
+          let cls = `'${name}-${hash}'`
           let dynamic = `[${stubs.join(', ')}]`
           let newSrc = stubs.length > 0 ? `css(${cls}, ${dynamic})` : `css(${cls})`
 
