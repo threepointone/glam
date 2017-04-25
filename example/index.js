@@ -2,10 +2,11 @@
 // import { render } from 'react-dom'
 import css from '../src'
 
-// require('./index.js.css')
 /* whowhowho */
-let blue = 'green'
+let blue = 'blue'
 let cls = css`font-weight:bold; color: ${blue}`
+
+let cls2 = css`color: green;`
 
 // class App extends React.Component{
 //   render(){

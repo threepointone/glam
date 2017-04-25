@@ -17,6 +17,7 @@ todo
 - typed om?
 - SC api?
 - unload styles?
+- wc?
 
 
 no

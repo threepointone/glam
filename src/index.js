@@ -11,10 +11,12 @@ function toClass(cls, spec){
   if(inserted[hash]) {
     return `y-${hash}`
   }
-  let src = spec.map((val, i) => `--${cls}-${i}: ${val}`).join(';')
-  src = `.y-${hash} {${src}}`
   inserted[hash] = true
-  sheet.insert(src)
+
+  let src = spec.map((val, i) => `--${cls}-${i}: ${val}`).join(';')
+  if(src){
+    sheet.insert(`.y-${hash} {${src}}`)  
+  }  
   return `y-${hash}`
 
 }
