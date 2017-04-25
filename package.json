@@ -1,5 +1,5 @@
 {
-  "name": "glam",
+  "name": "@threepointone/glam",
   "version": "1.0.0",
   "description": "css-in-js. again.",
   "main": "lib/index.js",
