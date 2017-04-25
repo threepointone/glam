@@ -1,5 +1,5 @@
 import { StyleSheet } from './sheet'
-import hashify from './hash'
+import hashArray from './hash'
 
 const sheet = new StyleSheet()
 sheet.inject()
@@ -7,7 +7,7 @@ sheet.inject()
 const inserted = {}
 
 function dynamics(cls, vars){
-  let hash = hashify(vars)
+  let hash = hashArray(vars)
   if(inserted[hash]) {
     return `vars-${hash}`
   }

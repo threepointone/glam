@@ -2,7 +2,7 @@ import * as babylon from 'babylon'
 import touch from 'touch'
 import fs from 'fs'
 
-import hashify from './hash'
+import hashArray from './hash'
 
 function getName(str){
   let regex = /name\s*:\s*([A-Za-z0-9\-_]+)\s*/gm
@@ -15,9 +15,8 @@ function getName(str){
 function parser(path) {
   let code = path.hub.file.code
   let strs = path.node.quasi.quasis.map(x => x.value.cooked)
-  let hash = hashify(strs)
-  let name = getName(strs.join('xxx')) || 'css'
-  
+  let hash = hashArray(strs)
+  let name = getName(strs.join('xxx')) || 'css'  
 
   let stubs = path.node.quasi.expressions.map(x => code.substring(x.start, x.end))          
   let ctr = 0

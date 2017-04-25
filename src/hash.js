@@ -1,16 +1,13 @@
 // murmurhash2 via https://gist.github.com/raycmorgan/588423
 
 
-export default function hashify(...objs) {
-  let str =''
-  for(let i=0;i<objs.length;i++) {
-    str += JSON.stringify(objs[i])    
-  }
-  return murmur3(str).toString(36)  
+export default function hashArray(arr) {
+  let str = arr.join(',')
+  return murmur2(str, str.length).toString(36)  
 }
 
 
-export function murmur3(str, seed) {
+export function murmur2(str, seed) {
   let m = 0x5bd1e995
   let r = 24
   let h = seed ^ str.length
