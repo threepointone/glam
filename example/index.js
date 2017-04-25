@@ -8,9 +8,11 @@ let cls = css`font-weight:bold; color: ${blue}`
 
 let cls2 = css`color: green;`
 
+let cls3 = css`color: ${'yellow'};`
+
 class App extends React.Component{
   render(){
-    return <div className={cls}>
+    return <div className={cls3}>
       what up
     </div>
   }

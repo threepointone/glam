@@ -1,26 +1,25 @@
 import { StyleSheet } from './sheet'
 import hashify from './hash'
-const inserted = {}
 
 const sheet = new StyleSheet()
 sheet.inject()
 
-// todo - weakmap cache here 
-function toClass(cls, spec){
-  let hash = hashify(spec)
+const inserted = {}
+
+function dynamics(cls, vars){
+  let hash = hashify(vars)
   if(inserted[hash]) {
-    return `y-${hash}`
+    return `vars-${hash}`
   }
+  
+  let src = vars.map((val, i) => `--${cls}-${i}: ${val}`).join(';')
+  sheet.insert(`.vars-${hash} {${src}}`)  
   inserted[hash] = true
 
-  let src = spec.map((val, i) => `--${cls}-${i}: ${val}`).join(';')
-  if(src){
-    sheet.insert(`.y-${hash} {${src}}`)  
-  }  
-  return `y-${hash}`
+  return `vars-${hash}`
 
 }
 
-export default function css(className, dynamic){
-  return className + (dynamic.length > 0 ?  (' ' + toClass(className, dynamic)) : '')
+export default function css(cls, vars){
+  return cls + (vars && vars.length > 0 ?  (' ' + dynamics(cls, vars)) : '')
 }

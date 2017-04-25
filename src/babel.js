@@ -21,7 +21,7 @@ function parser(path) {
   let src = strs.reduce((arr, str, i) => {
     arr.push(str)
     if(i !== stubs.length) {
-      arr.push(`var(--x-${hash}-${i})`)
+      arr.push(`var(--css-${hash}-${i})`)
     }
     return arr
   }, []).join('')
@@ -62,11 +62,11 @@ module.exports = function({ types: t }){
           
           let { hash, parsed, stubs } = parser(path)
 
-          state.insert(hash, `.x-${hash} { ${parsed} }`)
+          state.insert(hash, `.css-${hash} { ${parsed} }`)
 
-          let cls = `'x-${hash}'`
+          let cls = `'css-${hash}'`
           let dynamic = `[${stubs.join(', ')}]`
-          let newSrc = `css(${cls}, ${dynamic})`
+          let newSrc = stubs.length > 0 ? `css(${cls}, ${dynamic})` : `css(${cls})`
 
           path.replaceWith(babylon.parse(newSrc, {plugins: ['*']}).program.body[0].expression)
           
