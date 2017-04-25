@@ -5,7 +5,7 @@ glam
 
 `npm install @threepointone/glam`
 
-- super fast + small (<2k)
+- super fast + small (<2k gz)
 - extracts css out into regular css files 
 - use with css ecosystem: postcss, sass, etc 
 - Make Alex Happy (tm)
