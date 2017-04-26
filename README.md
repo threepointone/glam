@@ -85,6 +85,8 @@ function css(cls, vars){
 
 ```
 
+(react 16.alpha-11 and above)
+
 usage
 ---
 
