@@ -1,6 +1,6 @@
 {
   "name": "@threepointone/glam",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "css-in-js. again.",
   "main": "lib/index.js",
   "author": "Sunil Pai <threepointone@gmail.com>",
