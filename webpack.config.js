@@ -15,7 +15,7 @@ module.exports = {
         { loader: "style-loader" },
         { loader: "css-loader", options: { importLoaders: 1 } },
         { loader: "postcss-loader", options: { 
-          plugins: () => [ require('postcss-cssnext')({ features: { customProperties: false }}) ] } 
+          plugins: () => [ require('postcss-cssnext')({ features: { customProperties: false } }) ] } 
         }
       ] }
     ]  

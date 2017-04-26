@@ -18,7 +18,13 @@ import css from '../src'
 
 let blue = 'blue'
 
-let cls = css`display:flex; font-weight:bold; color: ${blue}; &:hover { color: red }`
+let cls = css`
+  display:flex; 
+  font-weight:bold; 
+  font-size: calc(${20} * 2px); 
+  &:hover { 
+    color: red 
+}`
 
 let cls2 = css`name: green; color: green;`
 
