@@ -51,6 +51,7 @@ module.exports = function({ types: t }){
         state.insert = function(hash, css){
           if(!inserted[hash]){
             inserted[hash] = true 
+            // todo - flush this in one go, and only if changed 
             fs.appendFileSync(file + '.css',  css + '\n')
           }
         }

@@ -1,10 +1,10 @@
 import { StyleSheet } from './sheet'
 import hashArray from './hash'
 
-const sheet = new StyleSheet()
+export const sheet = new StyleSheet()
 sheet.inject()
 
-const inserted = {}
+let inserted = {}
 
 function dynamic(cls, vars){
   let hash = hashArray(vars)
@@ -18,6 +18,12 @@ function dynamic(cls, vars){
 
   return `vars-${hash}`
 
+}
+
+export function flush(){
+  sheet.flush()
+  inserted = {}
+  sheet.inject()
 }
 
 export default function css(cls, vars){
