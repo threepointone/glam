@@ -9,6 +9,7 @@ glam
 - extracts css out into regular css files 
 - optional readable classnames (eg. `name: myButton;`)
 - use with css ecosystem: postcss, sass, etc ([example webpack config](https://github.com/threepointone/glam/blob/master/webpack.config.js))
+- parallel load / append 
 - Make Alex Happy (tm)
 
 
@@ -36,7 +37,10 @@ output -
 ```jsx
 // index.js
 
-import './index.js.css'
+import('./index.js.css') 
+// defaults to async load
+// sync load with explicit require('./index.js.css')
+
 import css from '@threepointone/glam'
 
 let myColor = '#ab67ee'
@@ -76,7 +80,8 @@ you could define your own variant, bringing down runtime cost further
 function css(cls, vars){
   return {
     className: cls,
-    style: vars ? vars.reduce((o, va, i) => (o[`--${cls}-${i}`] = vars[i], o), {}) : {}
+    style: vars ? vars.reduce((o, va, i) => 
+      (o[`--${cls}-${i}`] = vars[i], o), {}) : {}
   }
 }
 
@@ -102,7 +107,7 @@ usage
 todo
 ---
 - web components, shadow dom et al
-- keyframes, animations 
+- keyframes 
 - emit css files with webpack?
 - DCE
 - ssr
@@ -115,6 +120,7 @@ todo
 no
 ---
 
+- fontfaces
 - `@apply` :( composition will be a *little* harder
 - |||ly, non-value interpolations
 - nondeterministic resolution
