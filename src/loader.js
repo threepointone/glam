@@ -1,5 +1,4 @@
 let postcss = require('postcss')
-// postcss().process(' .x { color: red }').then(x => console.log(x.root.nodes))
 
 function toIndex(str, {line, column}){
 
@@ -23,7 +22,7 @@ module.exports = function(content) {
 
       rules.push(substr(content, n.source.start, n.source.end))
     })
-    let newSrc = `const sheet = require('../src').sheet;
+    let newSrc = `const sheet = require(${this.query.modulePath || '@threepointone/glam'}).sheet;
       [${rules.map(x => JSON.stringify(x)).join(',\n')}].forEach(function(rule){ sheet.insert(rule) });
     `
     callback(null, newSrc)
