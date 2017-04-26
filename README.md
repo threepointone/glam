@@ -36,6 +36,7 @@ output -
 ```jsx
 // index.js
 
+import './index.js.css'
 import css from 'glam'
 
 let myColor = '#ab67ee'
