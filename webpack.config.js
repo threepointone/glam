@@ -1,4 +1,5 @@
 let path = require('path')
+let cssnext = require('postcss-cssnext')
 
 module.exports = {
   devtool: 'source-map',
@@ -8,6 +9,9 @@ module.exports = {
     path: path.join(__dirname, './example'),
     filename: 'bundle.js'
   },
+  node: {
+    Buffer: false // workaround style-loader bug
+  },
   module: {
     rules: [
       { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
@@ -15,7 +19,7 @@ module.exports = {
         { loader: "style-loader" },
         { loader: "css-loader", options: { importLoaders: 1 } },
         { loader: "postcss-loader", options: { 
-          plugins: () => [ require('postcss-cssnext')({ features: { customProperties: false } }) ] } 
+          plugins: () => [ cssnext({ features: { customProperties: false } }) ] } 
         }
       ] }
     ]  
