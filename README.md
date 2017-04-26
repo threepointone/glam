@@ -37,7 +37,7 @@ output -
 // index.js
 
 import './index.js.css'
-import css from 'glam'
+import css from '@threepointone/glam'
 
 let myColor = '#ab67ee'
 let radius = '20px'
