@@ -36,7 +36,8 @@ output -
 ```jsx
 // index.js
 
-import css from 'glam'
+import './index.js.css'
+import css from '@threepointone/glam'
 
 let myColor = '#ab67ee'
 let radius = '20px'
