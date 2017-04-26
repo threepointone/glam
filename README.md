@@ -116,7 +116,7 @@ todo
 - typed om?
 - SC api?
 - unload styles?
-
+- work with extract-text-plugin
 
 no
 ---
