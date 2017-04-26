@@ -6,11 +6,11 @@ function toIndex(str, {line, column}){
   for(let i = 0 ; i < line - 1; i++ ){
     index = regex.exec(str).index
   }
-  return index + column + 1
+  return index + column
 }
 
 function substr(css, start, end){  
-  return css.substring(toIndex(css, start) - 2, toIndex(css, end)).trim()
+  return css.substring(toIndex(css, start) - 1, toIndex(css, end) + 1).trim()
 }
 
 module.exports = function(content) {
