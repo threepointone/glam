@@ -98,7 +98,8 @@ usage
 ---
 
 - add `@threepointone/glam/babel` to your babel plugins 
-- use style-loader/css-loader/postcss/whatever as you normally would
+- use `style-loader` + `css-loader` as usual, or `@threepointone/glam/loader`
+- add postcss, sass, etc custom loaders
 - ???
 - profit
 
