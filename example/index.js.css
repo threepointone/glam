@@ -7,3 +7,6 @@
 } }
 .green-k2d061 { name: green; color: green; }
 .css-jsqoaa { color: var(--css-jsqoaa-0); }
+.css-5dllbj { @media screen {
+    color: gray
+  } }
