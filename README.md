@@ -45,7 +45,7 @@ let myClass = css('css-1bh6s', [myColor, rad])
 ```
 
 ```css
-// index.js.css
+/* index.js.css */
 
 .css-1bh6s {
   color: red
