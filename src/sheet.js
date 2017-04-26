@@ -80,7 +80,7 @@ Object.assign(StyleSheet.prototype, {
   },
   inject() {
     if(this.injected) {
-      throw new Error('already injected stylesheet!') 
+      throw new Error('already injected!') 
     }
     if(isBrowser) {      
       this.tags[0] = makeStyleTag()        
@@ -100,7 +100,8 @@ Object.assign(StyleSheet.prototype, {
   },
   speedy(bool) {
     if(this.ctr !== 0) {
-      throw new Error(`cannot change speedy mode after inserting any rule to sheet. Either call speedy(${bool}) earlier in your app, or call flush() before speedy(${bool})`)
+      // cannot change speedy mode after inserting any rule to sheet. Either call speedy(${bool}) earlier in your app, or call flush() before speedy(${bool})
+      throw new Error(`cannot change speedy now`)
     }
     this.isSpeedy = !!bool
   },
@@ -114,7 +115,7 @@ Object.assign(StyleSheet.prototype, {
     catch(e) {
       if(isDev) {
         // might need beter dx for this 
-        console.warn('whoops, illegal rule inserted', rule) //eslint-disable-line no-console
+        console.warn('illegal rule', rule) //eslint-disable-line no-console
       }          
     }          
 
