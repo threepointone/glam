@@ -37,13 +37,13 @@ module.exports = function({ types: t }){
     visitor: {
       Program: {
         enter(path, state){
-          let injected = false
+          state.injected = false
           let inserted = {}
           state.toInsert = []
           let file = path.hub.file.opts.filename
           state.inject = function(){
-            if(!injected){
-              injected = true
+            if(!state.injected){
+              state.injected = true
               if(!fs.existsSync(file + '.css')) {
                 touch.sync(file + '.css')
               }
@@ -63,8 +63,9 @@ module.exports = function({ types: t }){
         },
         exit(path, state){
           let file = path.hub.file.opts.filename
-          let toWrite = state.toInsert.join('\n')
-          if(fs.readFileSync(file + '.css', 'utf8') !== toWrite){
+
+          let toWrite = state.toInsert.join('\n').trim()
+          if(state.injected && fs.readFileSync(file + '.css', 'utf8') !== toWrite){
             fs.writeFileSync(file + '.css', toWrite)  
           }          
         } 
