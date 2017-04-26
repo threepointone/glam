@@ -19,6 +19,10 @@ test('receives a class and array of var values', () => {
   expect(css`color:red, font-weight:${'bold'}`).toMatchSnapshot()
 })
 
+test('requires css file corresponding to module', () => {
+  expect(global.styleMocked).toBe('alphabetaomega')
+}) // ???
+
 test('injects dynamic values into a sheet', () => {
   flush()
   let cls = css`color:red; font-weight:${'bold'}`
@@ -29,7 +33,7 @@ test('dudupe static sections', () => {
   flush()
   let cls1 = `color:red, font-weight:${'bold'}`
   let cls2 = `color:red, font-weight:${'normal'}`
-  expect(cls1.split(' ')[0]).toEqual(cls2.split(' ')[0])
+  expect(cls1.split(' ')[0]).toBe(cls2.split(' ')[0])
   expect([cls1,cls2].map(x => x.split(' ')[1])).toMatchSnapshot()
 })
 
