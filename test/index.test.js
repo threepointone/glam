@@ -1,9 +1,8 @@
-
+const fs = require('fs')
+const path = require('path')
 
 const css = require('../src').default
 const { sheet, flush } = require('../src')
-const fs = require('fs')
-const path = require('path')
 
 test('returns a class for a string', () => {
   expect(css`color:red`).toMatchSnapshot()
@@ -22,8 +21,16 @@ test('receives a class and array of var values', () => {
 
 test('injects dynamic values into a sheet', () => {
   flush()
-  let cls = css`color: red; font-weight: ${'bold'}`
+  let cls = css`color:red; font-weight:${'bold'}`
   expect(sheet.rules()).toMatchSnapshot()
+})
+
+test('dudupe static sections', () => {
+  flush()
+  let cls1 = `color:red, font-weight:${'bold'}`
+  let cls2 = `color:red, font-weight:${'normal'}`
+  expect(cls1.split(' ')[0]).toEqual(cls2.split(' ')[0])
+  expect([cls1,cls2].map(x => x.split(' ')[1])).toMatchSnapshot()
 })
 
 test(`extracts css into a css file`, () => {

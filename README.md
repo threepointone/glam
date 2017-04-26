@@ -8,7 +8,7 @@ glam
 - super fast + small (<2k gz)
 - extracts css out into regular css files 
 - optional readable classnames (eg. `name: myButton;`)
-- use with css ecosystem: postcss, sass, etc 
+- use with css ecosystem: postcss, sass, etc ([example webpack config](https://github.com/threepointone/glam/blob/master/webpack.config.js))
 - Make Alex Happy (tm)
 
 
@@ -69,6 +69,8 @@ zero cost react variant
 
 you could define your own variant, bringing down runtime cost further
 
+(react 16.alpha-11 and above)
+
 ```jsx
 function css(cls, vars){
   return {
@@ -85,7 +87,6 @@ function css(cls, vars){
 
 ```
 
-(react 16.alpha-11 and above)
 
 usage
 ---
@@ -100,6 +101,7 @@ usage
 todo
 ---
 - web components, shadow dom et al
+- keyframes, animations 
 - emit css files with webpack?
 - DCE
 - ssr

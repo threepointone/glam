@@ -12,7 +12,7 @@ function dynamic(cls, vars){
     return `vars-${hash}`
   }
   
-  let src = vars.map((val, i) => `--${cls}-${i}: ${val}`).join(';')
+  let src = vars.map((val, i) => `--${cls}-${i}: ${val}`).join('; ')
   sheet.insert(`.vars-${hash} {${src}}`)  
   inserted[hash] = true
 
