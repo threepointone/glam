@@ -45,7 +45,7 @@ import css from '@threepointone/glam'
 let myColor = '#ab67ee'
 let radius = '20px'
 
-let myClass = css('css-1bh6s', [myColor, rad]) 
+let myClass = css('css-1bh6s', [myColor, rad]) // "css-1bh6s vars-h23psd"
 ```
 
 ```css
