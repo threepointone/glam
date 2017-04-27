@@ -68,19 +68,30 @@ let myClass = css('css-1bh6s', [myColor, rad]) // "css-1bh6s vars-h23psd"
 
 ```
 
+
+usage
+---
+
+- add `@threepointone/glam/babel` to your babel plugins 
+- optionally, add `@threepointone/glam/loader` to webpack's loaders
+- add postcss, sass, etc custom loaders
+- ???
+- profit
+
+
 zero cost react variant
 ---
 
 you could define your own variant, bringing down runtime cost further
 
-(react 16.alpha-11 and above)
+(react@16.alpha-11 and above)
 
 ```jsx
-function css(cls, vars){
+function css(cls, vars = []){
   return {
     className: cls,
-    style: vars ? vars.reduce((o, va, i) => 
-      (o[`--${cls}-${i}`] = vars[i], o), {}) : {}
+    style: vars.reduce((o, v, i) => 
+      (o[`--${cls}-${i}`] = v, o), {})
   }
 }
 
@@ -91,17 +102,6 @@ function css(cls, vars){
 </div>
 
 ```
-
-
-usage
----
-
-- add `@threepointone/glam/babel` to your babel plugins 
-- use `style-loader` + `css-loader` as usual, or `@threepointone/glam/loader`
-- add postcss, sass, etc custom loaders
-- ???
-- profit
-
 
 
 todo

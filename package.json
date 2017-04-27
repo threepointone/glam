@@ -28,6 +28,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "css-loader": "^0.28.0",
     "extract-text-webpack-plugin": "^2.1.0",
+    "file-loader": "^0.11.1",
     "jest": "^19.0.2",
     "postcss": "^5.2.17",
     "postcss-cssnext": "^2.10.0",
