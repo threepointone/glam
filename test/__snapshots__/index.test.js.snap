@@ -25,6 +25,6 @@ Array [
 ]
 `;
 
-exports[`returns 2 classes for a dynamic string 1`] = `"css-1nd0lsp vars-ocp2tr"`;
+exports[`returns 2 classes for a dynamic string 1`] = `"css-1nd0lsp vars-1wb9cdj"`;
 
 exports[`returns a class for a string 1`] = `"css-hwfcu5"`;

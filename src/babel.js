@@ -15,7 +15,7 @@ function getName(str){
 function parser(path) {
   let code = path.hub.file.code
   let strs = path.node.quasi.quasis.map(x => x.value.cooked)
-  let hash = hashArray(strs)
+  let hash = hashArray([...strs]) // todo - add current filename? 
   let name = getName(strs.join('xxx')) || 'css'  
 
   let stubs = path.node.quasi.expressions.map(x => code.substring(x.start, x.end))          

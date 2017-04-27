@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 
 const css = require('../src').default
+
 const { sheet, flush } = require('../src')
 
 test('returns a class for a string', () => {

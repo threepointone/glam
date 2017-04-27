@@ -1,18 +1,15 @@
 let path = require('path')
 let cssnext = require('postcss-cssnext')
 
+
 module.exports = {
-  devtool: 'source-map',
-  entry: './example/index.js',
-  output: {    
-    publicPath: '/example/',
-    path: path.join(__dirname, './example'),
+  target: 'node',
+  entry: './node/index.js',
+  output: {
+    path: path.join(__dirname, './node'),
     filename: 'bundle.js'
   },
-  node: {
-    Buffer: false // workaround style-loader bug
-  },
-  module: {
+   module: {
     rules: [
       { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
       { test: /\.css$/, use: [

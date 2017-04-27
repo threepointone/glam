@@ -9,26 +9,25 @@ function toIndex(str, {line, column}){
   return index + column
 }
 
-function substr(css, start, end){  
+function extract(css, start, end){  
   return css.substring(toIndex(css, start) - 1, toIndex(css, end) + 1).trim()
 }
 
 module.exports = function(content) {
   let callback = this.async()
   
-  postcss().process(content).then(x => {
-    let rules = []
-    x.root.nodes.forEach(n => {
-
-      rules.push(substr(content, n.source.start, n.source.end))
-    })
-    let newSrc = `const sheet = require(${this.query.modulePath || '@threepointone/glam'}).sheet;
-      [${rules.map(x => JSON.stringify(x)).join(',\n')}].forEach(function(rule){ sheet.insert(rule) });
+  postcss().process(content).then(ast => { // todo - from, to
+    let rules = ast.root.nodes.map(n => 
+      extract(content, n.source.start, n.source.end)
+    )
+    let newSrc = `var sheet = require(${this.query.modulePath || '@threepointone/glam'}).sheet;
+      [${rules.map(rule => JSON.stringify(rule)).join(',\n')}].forEach(function(rule){ sheet.insert(rule) });
     `
     callback(null, newSrc)
 
-  }, err => console.error(err))
-  
+  }, err => callback(err))
   
 }
+
+
 
