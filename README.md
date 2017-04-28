@@ -11,7 +11,6 @@
 - parallel load / append 
 - Make Alex Happy (tm)
 
-
 input -
 ```jsx
 // index.js
@@ -68,6 +67,13 @@ let myClass = css('css-1bh6s', [myColor, rad]) // "css-1bh6s vars-h23psd"
 
 ```
 
+caveats
+---
+
+- support for css vars is spotty (no ie or uc), be sure to include defaults 
+- only property values can be interpolated
+- interpolated values can't be 'processed'
+
 
 usage
 ---
@@ -107,7 +113,7 @@ function css(cls, vars = []){
 todo
 ---
 - web components, shadow dom et al
-- keyframes 
+- keyframes, fonts, imports 
 - emit css files with webpack?
 - ssr
 - source maps?
@@ -115,12 +121,10 @@ todo
 - SC api?
 - unload styles?
 - work with extract-text-plugin
+- hot loading support 
 
-no
+
+previous work
 ---
 
-- fontfaces
-- `@apply` :( composition will be a *little* harder
-- |||ly, non-value interpolations
-- nondeterministic resolution
-- not "great" browser support (read - no ie, opera mini, uc)
+- [css-literal-loader](https://github.com/4Catalyzer/css-literal-loader)
