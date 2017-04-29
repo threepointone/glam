@@ -73,7 +73,7 @@ caveats
 - support for css vars is spotty (no ie or uc), be sure to include defaults 
 - only property values can be interpolated
 - interpolated values can't be 'processed'
-
+- *doesn't* solve the '7 big problems'
 
 usage
 ---
