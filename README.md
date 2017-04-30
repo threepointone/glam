@@ -73,7 +73,7 @@ caveats
 - pass `inline: true` to generate a build for older browsers/server side support 
 - only property values can be interpolated
 - interpolated values can't be 'processed'
-
+- *doesn't* solve the '7 big problems'
 
 usage
 ---
