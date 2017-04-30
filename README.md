@@ -5,9 +5,9 @@
 `npm install @threepointone/glam`
 
 - super fast + small (<2k gz)
-- extracts css out into regular css files 
-- optional readable classnames (eg. `name: myButton;`)
-- use with css ecosystem: postcss, sass, etc ([example webpack config](https://github.com/threepointone/glam/blob/master/webpack.config.js))
+- extract `.css` files 
+- readable classnames (eg. `name: myButton;`)
+- includes future facing css - nested selectors, autoprefixing, etc 
 - parallel load / append 
 - Make Alex Happy (tm)
 
@@ -70,7 +70,7 @@ let myClass = css('css-1bh6s', [myColor, rad]) // "css-1bh6s vars-h23psd"
 caveats
 ---
 
-- support for css vars is spotty (no ie or uc), be sure to include defaults 
+- pass `inline: true` to generate a build for older browsers/server side support 
 - only property values can be interpolated
 - interpolated values can't be 'processed'
 
@@ -79,10 +79,17 @@ usage
 ---
 
 - add `@threepointone/glam/babel` to your babel plugins 
-- optionally, add `@threepointone/glam/loader` to webpack's loaders
-- add postcss, sass, etc custom loaders
+- add `@threepointone/glam/loader` to webpack's css loaders
 - ???
 - profit
+
+
+plugin options
+---
+
+- `sync` - `true`/`false` - loads css synchronously, preventing fouc 
+- `inline` - `true/false` - fallback for browsers that don't support css props.
+
 
 
 zero cost react variant
@@ -116,6 +123,7 @@ todo
 - keyframes, fonts, imports 
 - emit css files with webpack?
 - ssr
+- custom postcss pipeline
 - source maps?
 - typed om?
 - SC api?

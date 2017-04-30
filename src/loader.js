@@ -14,18 +14,15 @@ function extract(css, start, end){
 }
 
 module.exports = function(content) {
-  let callback = this.async()
-  
-  postcss().process(content).then(ast => { // todo - from, to
-    let rules = ast.root.nodes.map(n => 
-      extract(content, n.source.start, n.source.end)
-    )
-    let newSrc = `var sheet = require(${this.query.modulePath || '"@threepointone/glam"'}).sheet;
-      [${rules.map(rule => JSON.stringify(rule)).join(',\n')}].forEach(function(rule){ sheet.insert(rule) });
-    `
-    callback(null, newSrc)
+  let ast = postcss.parse(content)
 
-  }, err => callback(err))
+  let rules = ast.nodes.map(n => 
+    extract(content, n.source.start, n.source.end)
+  )
+  let newSrc = `var sheet = require(${this.query.modulePath || '"@threepointone/glam"'}).sheet;
+    [${rules.map(rule => JSON.stringify(rule)).join(',\n')}].forEach(function(rule){ sheet.insert(rule) });
+  `
+  return newSrc
   
 }
 

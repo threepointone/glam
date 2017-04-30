@@ -27,7 +27,20 @@ export function flush(){
 }
 
 
-export default function css(cls, vars){
+export default function css(cls, vars, content){
+  if(content){
+    
+    // inline mode
+    let src = content(...vars) // returns an array
+    let hash = hashArray(src)
+    
+    if(!inserted[hash]){
+      inserted[hash] = true
+      src.map(r => r.replace(new RegExp(cls, 'gm'), `${cls}-${hash}`)).forEach(r => sheet.insert(r))      
+    }
+    return `${cls}-${hash}`
+
+  }
   return cls + ((vars && vars.length > 0) ?  (' ' + values(cls, vars)) : '')
 }
 

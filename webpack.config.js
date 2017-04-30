@@ -1,5 +1,6 @@
 let path = require('path')
 let cssnext = require('postcss-cssnext')
+let webpack = require('webpack')
 
 module.exports = {
   devtool: 'source-map',
@@ -20,15 +21,15 @@ module.exports = {
         // instead of - 
         // { loader: "style-loader" },
         // { loader: "css-loader", options: { importLoaders: 1 } },
-        
-        // we use our own version -
+
+        // or - 
+        // { loader: "file-loader" },
+
+        // we can use our own version -
         { loader: path.join(__dirname, './src/loader'),  // this would be '@threepointone/glam/loader'
-          options: { modulePath: '"../src"' } },  // you don't need this
-        
-        // add postcss as 'usual'  
-        { loader: "postcss-loader", options: { 
-          plugins: () => [ cssnext({ features: { customProperties: false } }) ] } 
-        }
+          options: { modulePath: '"../src"' } }  // you don't need this        
+
+
       ] }
     ]  
   } 
