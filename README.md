@@ -7,7 +7,7 @@
 - super fast + small (<2k gz)
 - extract `.css` files 
 - readable classnames (eg. `name: myButton;`)
-- includes future facing css - nested selectors, autoprefixing, etc 
+- future facing css - nested selectors, autoprefixing, etc 
 - parallel load / append 
 - Make Alex Happy (tm)
 
@@ -70,7 +70,6 @@ let myClass = css('css-1bh6s', [myColor, rad]) // "css-1bh6s vars-h23psd"
 caveats
 ---
 
-- pass `inline: true` to generate a build for older browsers/server side support 
 - only property values can be interpolated
 - interpolated values can't be 'processed'
 - *doesn't* solve the '7 big problems'
@@ -89,7 +88,6 @@ plugin options
 
 - `sync` - `true`/`false` - loads css synchronously, preventing fouc 
 - `inline` - `true/false` - fallback for browsers that don't support css props.
-
 
 
 zero cost react variant

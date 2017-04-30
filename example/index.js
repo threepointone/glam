@@ -2,6 +2,10 @@ import React from 'react'
 import { render } from 'react-dom'
 import css from '../src'
 
+// function css(cls, vars, make){
+//   console.log(cls, vars, make)
+// }
+
 let blue = 'blue'
 
 let cls = css`
@@ -24,7 +28,7 @@ let cls4 = css`
 
 class App extends React.Component{
   render(){
-    return <div className={cls4}>
+    return <div className={cls}>
       what up
     </div>
   }
