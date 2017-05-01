@@ -72,7 +72,7 @@ caveats
 
 - only property values can be interpolated
 - interpolated values can't be 'processed'
-- *doesn't* solve the '7 big problems'
+- *doesn't* solve the '7 big problems'... yet
 
 usage
 ---
