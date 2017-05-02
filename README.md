@@ -34,9 +34,8 @@ let myClass = css`
 `
 
 ```
-<details>
-  <summary>output</summary>
-  ```generated
+
+output -   
 ```jsx
 // index.js
 
@@ -70,9 +69,6 @@ let myClass = css('css-1bh6s', [myColor, rad])
 }
 
 ```
-
-</details>
-
 
 fragments
 ---
