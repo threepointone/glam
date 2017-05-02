@@ -35,7 +35,7 @@ let myClass = css`
 
 ```
 <details>
-  <summary>output</summary><p>
+  <summary>output</summary>
   generated code
 ```jsx
 // index.js
@@ -70,7 +70,7 @@ let myClass = css('css-1bh6s', [myColor, rad])
 }
 
 ```
-</p>
+
 </details>
 
 
