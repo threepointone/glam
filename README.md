@@ -35,6 +35,7 @@ let myClass = css`
 ```
 <details>
   <summary>output</summary><p>
+  generated code
 ```jsx
 // index.js
 
@@ -79,7 +80,7 @@ glam lets you define reusable css `fragment`s that can be
 mixed in with `css` and `fragment` definitions
 
 ```jsx
-import css, {fragment} from '@threepointone/glam'
+import css, {fragment} from 'glam'
 let bigNumber = 100
 let smallNumber = 6
 
@@ -173,8 +174,8 @@ some options to bundle and serve this css -
 
 - use a classic webpack combo: `style-loader`/`css-loader`
 - use `file-loader` and load it with link tags and/or `@import`
-- use `@threepointone/glam/loader`
-- use `@threepointone/server` to extract 'precise' css from html
+- use `glam/loader`
+- (todo) - use `glam/server` to extract 'precise' css from html 
 
 I hope to make this simpler.
 
@@ -229,5 +230,3 @@ thanks
 
 - to [@gregtatum](https://github.com/gregtatum) for the `glam` package name!
 
-
->>>>>>> Stashed changes
