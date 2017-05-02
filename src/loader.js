@@ -19,7 +19,7 @@ module.exports = function(content) {
   let rules = ast.nodes.map(n => 
     extract(content, n.source.start, n.source.end)
   )
-  let newSrc = `var sheet = require(${this.query.modulePath || '"@threepointone/glam"'}).sheet;
+  let newSrc = `var sheet = require(${this.query.modulePath || '"glam"'}).sheet;
     [${rules.map(rule => JSON.stringify(rule)).join(',\n')}].forEach(function(rule){ sheet.insert(rule) });
   `
   return newSrc

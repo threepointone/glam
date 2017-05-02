@@ -2,7 +2,7 @@
 
 [![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
 
-`npm install @threepointone/glam`
+`npm install glam`
 
 - super fast + small (<2k gz)
 - extract `.css` files 
@@ -15,7 +15,7 @@ input -
 ```jsx
 // index.js
 
-import css from '@threepointone/glam'
+import css from 'glam'
 
 let myColor = '#ab67ee'
 let radius = '20px'
@@ -39,7 +39,7 @@ import('./index.js.css')
 // defaults to async load
 // sync load with explicit require('./index.js.css')
 
-import css from '@threepointone/glam'
+import css from 'glam'
 
 let myColor = '#ab67ee'
 let radius = '20px'
@@ -77,8 +77,8 @@ caveats
 usage
 ---
 
-- add `@threepointone/glam/babel` to your babel plugins 
-- add `@threepointone/glam/loader` to webpack's css loaders
+- add `glam/babel` to your babel plugins 
+- add `glam/loader` to webpack's css loaders
 - ???
 - profit
 
