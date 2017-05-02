@@ -12,7 +12,12 @@ function values(cls, vars){
     return `vars-${hash}`
   }
   let fragvarcls = []
-  let src = vars.map((val, i) => `--${cls}-${i}: ${Array.isArray(val) ? (fragvarcls.push(val[1]), val[0]) : val}`).join('; ')
+  let src = vars.map((val, i) => 
+    `--${cls}-${i}: ${
+      /^frag-/.exec(val) ? 
+      (fragvarcls.push(val), 'var(--' + val.split(' ')[0] + ')') 
+      : val
+    }`).join('; ')
   sheet.insert(`.vars-${hash} {${src}}`)  
   inserted[hash] = true
 

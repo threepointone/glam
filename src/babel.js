@@ -31,7 +31,7 @@ function parser(path) {
       if(applyMatch){
         arr.push(`--${name}-${hash}-${i}`)  
       }
-      arr.push(`var(--${name}-${hash}-${i})`)
+      else arr.push(`var(--${name}-${hash}-${i})`)
     }
     return arr
   }, []).join('').trim()
@@ -73,7 +73,64 @@ function inline(path){
 }
 
 function fragment(path){
+  let code = path.hub.file.code
+  let strs = path.node.quasi.quasis.map(x => x.value.cooked)
+  let hash = hashArray([...strs]) // todo - add current filename? 
+  let name = getName(strs.join('xxx')) || 'frag'  
 
+  let stubs = path.node.quasi.expressions.map(x => code.substring(x.start, x.end))          
+  let ctr = 0
+
+  let src = strs.reduce((arr, str, i) => {
+    arr.push(str)
+    if(i !== stubs.length) {
+      // todo - test for preceding @apply
+      let applyMatch = /@apply\s*$/gm.exec(str)
+      if(applyMatch){
+        arr.push(`--${name}-${hash}-${i}`)  
+      }
+      else {
+        arr.push(`var(--${name}-${hash}-${i})`)  
+      }
+      
+    }
+    return arr
+  }, []).join('').trim()
+  let rules = parseCSS(`.${name}-${hash} { --${name}-${hash}: { ${src} }; }`, {nested: false})
+  let parsed = rules.join('\n')
+
+  return { hash, parsed, stubs, name }
+}
+
+function fragmentinline(path){
+  let code = path.hub.file.code
+  let strs = path.node.quasi.quasis.map(x => x.value.cooked)
+  let hash = hashArray([...strs]) // todo - add current filename? 
+  let name = getName(strs.join('xxx')) || 'frag'  
+
+  let stubs = path.node.quasi.expressions.map(x => code.substring(x.start, x.end))          
+  let ctr = 0
+
+  let src = strs.reduce((arr, str, i) => {
+    arr.push(str)
+    if(i !== stubs.length) {
+      // todo - test for preceding @apply
+      let applyMatch = /@apply\s*$/gm.exec(str)
+      if(applyMatch){
+        arr.push(`--${name}-${hash}-${i}`)  
+      }
+      else arr.push(`var(--${name}-${hash}-${i})`)
+    }
+    return arr
+  }, []).join('').trim()
+
+  let rules = parseCSS(`.${name}-${hash} { ${src} }`)
+  rules = rules.map(rule => rule.replace(/@apply\s+--[A-Za-z0-9-_]+-([0-9]+)/gm, (match, p1) => `$\{x${p1}}` ))
+  rules = rules.map(rule => rule.replace(/var\(--[A-Za-z0-9-_]+-([0-9]+)\)/gm, (match, p1) => `$\{x${p1}}` ))
+  
+
+  let parsed = `(${stubs.map((x, i) => `x${i}`).join(', ')}) => [${rules.map(x => '`' + x + '`').join(',\n')}]`
+  return { hash, parsed, stubs, name }  
 }
 
 module.exports = function({ types: t }){
@@ -156,19 +213,21 @@ module.exports = function({ types: t }){
           let newSrc 
           // fragment('frag-[hash]', vars, () => [``])
           if(state.opts.inline){
-            let { hash, parsed, stubs, name } = fragment(path) 
+            let { hash, parsed, stubs, name } = fragmentinline(path) 
             let cls = `'${name}-${hash}'`
             let vars = `[${stubs.join(', ')}]`
             newSrc = `fragment(${cls}, ${vars}, ${parsed})`
 
           }
           else {
-            let { hash, parsed, stubs, name } = parser(path)
+            let { hash, parsed, stubs, name } = fragment(path, {name: 'frag'})
             state.insert(hash, parsed)  
             let cls = `'${name}-${hash}'`
             let vars = `[${stubs.join(', ')}]`
             newSrc = stubs.length > 0 ? `css(${cls}, ${vars})` : `css(${cls})`
           }
+
+          path.replaceWith(babylon.parse(newSrc, {plugins: ['*']}).program.body[0].expression)
 
         }
       }

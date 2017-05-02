@@ -1,12 +1,12 @@
 import React from 'react'
 import { render } from 'react-dom'
-import css from '../src'
+import css, { fragment } from '../src'
 
 // function css(cls, vars, make){
 //   console.log(cls, vars, make)
 // }
 
-let blue = 'blue'
+// let blue = 'blue'
 // let myColor = 'green'
 
 // // input 
@@ -24,22 +24,40 @@ let blue = 'blue'
 //   ]
 // );
 
+// let cls = css`
+//   display:flex; 
+//   font-weight:bold; 
+//   font-size: calc(${20} * 2px); 
+//   &:hover { 
+//     color: red 
+// }`
+
+// let cls2 = css`name: green; color: green;`
+
+// let cls3 = css`color: ${'yellow'};`
+
+// let cls4 = css`
+//   @media screen {
+//     color: gray
+//   }
+// `
+
+import('./index.js.css')
+
+let chunk = fragment`
+  background-color: gray;
+  border-radius: ${'50px'};
+`
+
+let frag = fragment`
+  @apply ${chunk};
+  font-size: ${'50px'};
+  color: red;
+`
+
 let cls = css`
-  display:flex; 
-  font-weight:bold; 
-  font-size: calc(${20} * 2px); 
-  &:hover { 
-    color: red 
-}`
-
-let cls2 = css`name: green; color: green;`
-
-let cls3 = css`color: ${'yellow'};`
-
-let cls4 = css`
-  @media screen {
-    color: gray
-  }
+ @apply ${frag};
+ font-weight: bold;
 `
 
 class App extends React.Component{
