@@ -82,8 +82,8 @@ mixed in with `css` and `fragment` definitions
 
 ```jsx
 import css, {fragment} from 'glam'
-let bigNumber = 100
-let smallNumber = 6
+let bigNumber = 100, 
+  smallNumber = 6
 
 let bold = fragment` 
   display: flex; 
@@ -95,9 +95,7 @@ let big = fragment`
   font-size: ${bigNumber} 
 `
 
-let small = fragment` 
-  font-size: ${smallNumber} 
-`
+let small = fragment` font-size: ${smallNumber} `
 
 <div className={css` 
   @apply ${props.error ? big : small}; 
