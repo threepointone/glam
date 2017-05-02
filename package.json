@@ -1,6 +1,6 @@
 {
   "name": "glam",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "css-in-js. again.",
   "main": "lib/index.js",
   "author": "Sunil Pai <threepointone@gmail.com>",
