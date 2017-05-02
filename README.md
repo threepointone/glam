@@ -134,3 +134,9 @@ previous work
 ---
 
 - [css-literal-loader](https://github.com/4Catalyzer/css-literal-loader)
+
+
+thanks
+---
+
+- to [@gregtatum](https://github.com/gregtatum) for the `glam` package name!
