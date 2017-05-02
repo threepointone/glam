@@ -26,6 +26,7 @@ let myClass = css`
     color: ${myColor};
     border-radius: ${radius};
   }
+`
 // ...
 <div class={myClass}>
   what up homies
