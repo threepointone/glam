@@ -158,11 +158,6 @@ plugin options
 glam can 'polyfill' for browsers that don't support css vars and / or `@apply`. 
 fancy! you could then generate separate bundles targeting different browsers.
 
-- `vars` - bool - default `false`
-- `apply` - bool - default `true`
-
-you can bundle all your css with your js, and not create css files. 
-
 - `inline` - bool - default `false`
 
 
