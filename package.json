@@ -19,6 +19,7 @@
   "scripts": {
     "start": "webpack-dev-server",
     "build": "babel src -d lib",
+    "umd": "webpack --config webpack.umd.js -p ",
     "test": "jest",
     "snapshot": "npm test -- -u"
   },

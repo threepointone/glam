@@ -19,3 +19,4 @@ CVS
 node_modules
 lib
 example/*bundle*
+dist

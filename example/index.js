@@ -7,6 +7,22 @@ import css from '../src'
 // }
 
 let blue = 'blue'
+// let myColor = 'green'
+
+// // input 
+// let example = css`
+//   color: red;
+//   &:hover {
+//     color: ${myColor}
+//   }
+// `
+// // generated
+// let example = css('css-wbh6ke', [myColor], (x0) =>
+//   [
+//     `.css-wbh6ke { color: red; }
+//     .css-wbh6ke:hover { color: ${x0}}`
+//   ]
+// );
 
 let cls = css`
   display:flex; 
