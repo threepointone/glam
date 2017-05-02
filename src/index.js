@@ -39,15 +39,13 @@ export default function css(cls, vars, content){
   if(content){
     let fragvarcls = []
     // inline mode
-    vars = vars.map(v => /^--frag/.exec(v) ? fragments[v] : 
-       // Array.isArray(v) ? (fragvarcls.push(v[1]), fragments[v[0]]) : 
+    vars = vars.map(v => /^frag-/.exec(v) ? fragments[v] : 
        v )
     let src = content(...vars) // returns an array
     let hash = hashArray(src)
     
     if(!inserted[hash]){
       inserted[hash] = true
-      // look for @apply
       src.map(r => r.replace(new RegExp(cls, 'gm'), `${cls}-${hash}`)).forEach(r => sheet.insert(r))      
     }
     return `${cls}-${hash}`
@@ -61,12 +59,17 @@ const fragments = {}
 export function fragment(frag, vars, content){
   if(content){
     let fragvarcls = []
-    vars = vars.map(v => /^--frag-/.exec(v) ? fragments[v] : 
-      // Array.isArray(v) ? (fragvarcls.push(v[1]), fragments[v[0]]) : 
+    vars = vars.map(v => /^frag-/.exec(v) ? fragments[v] : 
       v )
     let src = content(...vars) // return array?
+    if(src.length > 1){
+      throw new Error('what up!')
+    }
+
     let hash = hashArray(src)
-    fragments[hash] = src
+    src = src.join('')
+    fragments[`${frag}-${hash}`] = src.substring(src.indexOf('{') + 1, src.length -1)
+    return `${frag}-${hash}`
     
   }
   return frag + ((vars && vars.length > 0) ?  (' ' + values(frag, vars)) : '')

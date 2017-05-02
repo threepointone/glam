@@ -224,7 +224,7 @@ module.exports = function({ types: t }){
             state.insert(hash, parsed)  
             let cls = `'${name}-${hash}'`
             let vars = `[${stubs.join(', ')}]`
-            newSrc = stubs.length > 0 ? `css(${cls}, ${vars})` : `css(${cls})`
+            newSrc = stubs.length > 0 ? `fragment(${cls}, ${vars})` : `fragment(${cls})`
           }
 
           path.replaceWith(babylon.parse(newSrc, {plugins: ['*']}).program.body[0].expression)
