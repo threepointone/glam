@@ -88,7 +88,6 @@ let smallNumber = 6
 let bold = fragment` 
   display: flex; 
   font-weight: bold;
-
 ` 
 
 let big = fragment` 
