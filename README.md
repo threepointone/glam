@@ -36,7 +36,7 @@ let myClass = css`
 ```
 <details>
   <summary>output</summary>
-  generated code
+  ```generated
 ```jsx
 // index.js
 
