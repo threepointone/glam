@@ -169,7 +169,7 @@ module.exports = function({ types: t }){
           let file = path.hub.file.opts.filename
 
           let toWrite = state.toInsert.join('\n').trim()
-          if(!state.opts.inline && state.injected && fs.readFileSync(file + '.css', 'utf8') !== toWrite){
+          if(!state.opts.inline && state.injected &&  (fs.existsSync(file + '.css') ? (fs.readFileSync(file + '.css', 'utf8') !== toWrite) : true) ){
             if(!fs.existsSync(file + '.css')) {
               touch.sync(file + '.css')
             }
