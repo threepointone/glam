@@ -130,6 +130,11 @@ nice things
 - backward compatible with older browsers (serve the right bundle!)
 - free DCE/async loading/etc via webpack ecosystem 
 
+how does it work?
+---
+
+[like so](https://gist.github.com/threepointone/0ef30b196682a69327c407124f33d69a)
+
 
 caveats
 ---
