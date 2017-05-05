@@ -140,6 +140,8 @@ caveats
 ---
 
 - interpolated property *values* can't be 'processed', which should be fine?
+- composition isn't as easy as other css-in-js systems
+- the `@apply` spec is stalled, and might never make it in. 
 
 usage
 ---
