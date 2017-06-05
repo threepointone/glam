@@ -1,13 +1,11 @@
-
-export function styled(Tag, cls, fns, content){
-  return class Target extends React.Component{
+import React from 'react'
+export function styled (Tag, cls, fns, content) {
+  return class Target extends React.Component {
     static displayName = cls
-    render(){
+    render () {
       // return <Tag classname={cx()} {...this.props}/>
     }
   }
 }
 
-export function createElement(tag, props, children){
-
-}
+export function createElement (tag, props, children) {}

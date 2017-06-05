@@ -9,7 +9,7 @@ import css, { fragment } from '../src'
 // let blue = 'blue'
 // let myColor = 'green'
 
-// // input 
+// // input
 // let example = css`
 //   color: red;
 //   &:hover {
@@ -25,11 +25,11 @@ import css, { fragment } from '../src'
 // );
 
 // let cls = css`
-//   display:flex; 
-//   font-weight:bold; 
-//   font-size: calc(${20} * 2px); 
-//   &:hover { 
-//     color: red 
+//   display:flex;
+//   font-weight:bold;
+//   font-size: calc(${20} * 2px);
+//   &:hover {
+//     color: red
 // }`
 
 // let cls2 = css`name: green; color: green;`
@@ -60,12 +60,12 @@ let cls = css`
  font-weight: bold;
 `
 
-class App extends React.Component{
-  render(){
+class App extends React.Component {
+  render () {
     return <div className={cls}>
       what up
     </div>
   }
 }
 
-render(<App/>, window.root)
+render(<App />, window.root)

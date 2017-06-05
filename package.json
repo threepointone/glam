@@ -26,10 +26,13 @@
     "build": "babel src -d lib",
     "umd": "webpack --config webpack.umd.js -p ",
     "test": "jest",
-    "snapshot": "npm test -- -u"
+    "snapshot": "npm test -- -u",
+    "lint": "standard --fix",
+    "format": "prettier-eslint --write \"src/**/*.js\""
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.3",
     "babel-loader": "^7.0.0",
     "babel-preset-env": "^1.4.0",
     "babel-preset-react": "^6.24.1",
@@ -41,8 +44,10 @@
     "postcss": "^5.2.17",
     "postcss-cssnext": "^2.10.0",
     "postcss-loader": "^1.3.3",
+    "prettier-eslint-cli": "^4.0.3",
     "react": "next",
     "react-dom": "next",
+    "standard": "^10.0.2",
     "style-loader": "^0.16.1",
     "webpack": "^2.4.1",
     "webpack-dev-server": "^2.4.4"
@@ -52,5 +57,20 @@
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/test/fileMock.js",
       "\\.(css|less)$": "<rootDir>/test/styleMock.js"
     }
+  },
+  "eslintConfig": {
+    "extends": "standard",
+    "parser": "babel-eslint"
+  },
+  "standard": {
+    "parser": "babel-eslint",
+    "ignore": [
+      "/dist/",
+      "/lib/"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/threepointone/glam.git"
   }
 }
