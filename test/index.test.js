@@ -1,3 +1,6 @@
+/* eslint-disable jsx-quotes,no-useless-escape */
+/* eslint-env jest */
+
 const fs = require('fs')
 const path = require('path')
 
@@ -14,8 +17,8 @@ test('returns 2 classes for a dynamic string', () => {
 })
 
 test('receives a class and array of var values', () => {
-  let css = function(a, b){
-    return [a,b]
+  let css = function (a, b) {
+    return [a, b]
   }
   expect(css`color:red, font-weight:${'bold'}`).toMatchSnapshot()
 })
@@ -35,11 +38,11 @@ test('dudupe static sections', () => {
   let cls1 = `color:red, font-weight:${'bold'}`
   let cls2 = `color:red, font-weight:${'normal'}`
   expect(cls1.split(' ')[0]).toBe(cls2.split(' ')[0])
-  expect([cls1,cls2].map(x => x.split(' ')[1])).toMatchSnapshot()
+  expect([cls1, cls2].map(x => x.split(' ')[1])).toMatchSnapshot()
 })
 
 test(`extracts css into a css file`, () => {
-  let file = path.join(__dirname,'./index.test.js.css')
+  let file = path.join(__dirname, './index.test.js.css')
   expect(fs.existsSync(file)).toBe(true)
   expect(fs.readFileSync(file, 'utf8')).toMatchSnapshot()
 })

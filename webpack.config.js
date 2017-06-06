@@ -5,7 +5,7 @@ let webpack = require('webpack')
 module.exports = {
   devtool: 'source-map',
   entry: './example/index.js',
-  output: {    
+  output: {
     publicPath: '/example/',
     path: path.join(__dirname, './example'),
     filename: 'bundle.js'
@@ -15,22 +15,22 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
-      { test: /\.css$/, use: [
-        
-        // instead of - 
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
+      { test: /\.css$/,
+        use: [
+
+        // instead of -
         // { loader: "style-loader" },
         // { loader: "css-loader", options: { importLoaders: 1 } },
 
-        // or - 
+        // or -
         // { loader: "file-loader" },
 
         // we can use our own version -
-        { loader: path.join(__dirname, './src/loader'),  // this would be '@threepointone/glam/loader'
-          options: { modulePath: '"../src"' } }  // you don't need this        
+          { loader: path.join(__dirname, './src/loader'),  // this would be '@threepointone/glam/loader'
+            options: { modulePath: '"../src"' } }  // you don't need this
 
-
-      ] }
-    ]  
-  } 
+        ] }
+    ]
+  }
 }

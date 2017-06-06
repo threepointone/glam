@@ -1,6 +1,6 @@
-export default async function load(path){
-  // append a link tag 
+export default async function load (path) {
+  // append a link tag
   // load it
-  // resolve promise 
+  // resolve promise
   // thats it!
 }

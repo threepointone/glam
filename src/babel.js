@@ -6,144 +6,183 @@ import fs from 'fs'
 
 import hashArray from './hash'
 
-function getName(str){
+function getName (str) {
   let regex = /name\s*:\s*([A-Za-z0-9\-_]+)\s*/gm
   let match = regex.exec(str)
-  if(match){
+  if (match) {
     return match[1]
   }
 }
 
-function parser(path) {
+function parser (path) {
   let code = path.hub.file.code
   let strs = path.node.quasi.quasis.map(x => x.value.cooked)
   let hash = hashArray([...strs]) // todo - add current filename?
   let name = getName(strs.join('xxx')) || 'css'
 
-  let stubs = path.node.quasi.expressions.map(x => code.substring(x.start, x.end))
+  let stubs = path.node.quasi.expressions.map(x =>
+    code.substring(x.start, x.end)
+  )
   let ctr = 0
 
-  let src = strs.reduce((arr, str, i) => {
-    arr.push(str)
-    if(i !== stubs.length) {
-      // todo - test for preceding @apply
-      let applyMatch = /@apply\s*$/gm.exec(str)
-      if(applyMatch){
-        arr.push(`--${name}-${hash}-${i}`)
+  let src = strs
+    .reduce((arr, str, i) => {
+      arr.push(str)
+      if (i !== stubs.length) {
+        // todo - test for preceding @apply
+        let applyMatch = /@apply\s*$/gm.exec(str)
+        if (applyMatch) {
+          arr.push(`--${name}-${hash}-${i}`)
+        } else arr.push(`var(--${name}-${hash}-${i})`)
       }
-      else arr.push(`var(--${name}-${hash}-${i})`)
-    }
-    return arr
-  }, []).join('').trim()
+      return arr
+    }, [])
+    .join('')
+    .trim()
   let rules = parseCSS(`.${name}-${hash} { ${src} }`)
   let parsed = rules.join('\n')
 
-  return { hash, parsed, stubs, name }
+  return {hash, parsed, stubs, name}
 }
 
-function inline(path){
+function inline (path) {
   let code = path.hub.file.code
   let strs = path.node.quasi.quasis.map(x => x.value.cooked)
   let hash = hashArray([...strs]) // todo - add current filename?
   let name = getName(strs.join('xxx')) || 'css'
 
-  let stubs = path.node.quasi.expressions.map(x => code.substring(x.start, x.end))
+  let stubs = path.node.quasi.expressions.map(x =>
+    code.substring(x.start, x.end)
+  )
   let ctr = 0
 
-  let src = strs.reduce((arr, str, i) => {
-    arr.push(str)
-    if(i !== stubs.length) {
-      // todo - test for preceding @apply
-      let applyMatch = /@apply\s*$/gm.exec(str)
-      if(applyMatch){
-        arr.push(`--${name}-${hash}-${i}`)
+  let src = strs
+    .reduce((arr, str, i) => {
+      arr.push(str)
+      if (i !== stubs.length) {
+        // todo - test for preceding @apply
+        let applyMatch = /@apply\s*$/gm.exec(str)
+        if (applyMatch) {
+          arr.push(`--${name}-${hash}-${i}`)
+        } else arr.push(`var(--${name}-${hash}-${i})`)
       }
-      else arr.push(`var(--${name}-${hash}-${i})`)
-    }
-    return arr
-  }, []).join('').trim()
+      return arr
+    }, [])
+    .join('')
+    .trim()
 
   let rules = parseCSS(`.${name}-${hash} { ${src} }`)
-  rules = rules.map(rule => rule.replace(/@apply\s+--[A-Za-z0-9-_]+-([0-9]+)/gm, (match, p1) => `$\{x${p1}}` ))
-  rules = rules.map(rule => rule.replace(/var\(--[A-Za-z0-9-_]+-([0-9]+)\)/gm, (match, p1) => `$\{x${p1}}` ))
+  rules = rules.map(rule =>
+    rule.replace(
+      /@apply\s+--[A-Za-z0-9-_]+-([0-9]+)/gm,
+      (match, p1) => `$\{x${p1}}`
+    )
+  )
+  rules = rules.map(rule =>
+    rule.replace(
+      /var\(--[A-Za-z0-9-_]+-([0-9]+)\)/gm,
+      (match, p1) => `$\{x${p1}}`
+    )
+  )
 
-
-  let parsed = `(${stubs.map((x, i) => `x${i}`).join(', ')}) => [${rules.map(x => '`' + x + '`').join(',\n')}]`
-  return { hash, parsed, stubs, name }
+  let parsed = `(${stubs.map((x, i) => `x${i}`).join(', ')}) => [${rules
+    .map(x => '`' + x + '`')
+    .join(',\n')}]`
+  return {hash, parsed, stubs, name}
 }
 
-function fragment(path){
+function fragment (path) {
   let code = path.hub.file.code
   let strs = path.node.quasi.quasis.map(x => x.value.cooked)
   let hash = hashArray([...strs]) // todo - add current filename?
   let name = getName(strs.join('xxx')) || 'frag'
 
-  let stubs = path.node.quasi.expressions.map(x => code.substring(x.start, x.end))
+  let stubs = path.node.quasi.expressions.map(x =>
+    code.substring(x.start, x.end)
+  )
   let ctr = 0
 
-  let src = strs.reduce((arr, str, i) => {
-    arr.push(str)
-    if(i !== stubs.length) {
-      // todo - test for preceding @apply
-      let applyMatch = /@apply\s*$/gm.exec(str)
-      if(applyMatch){
-        arr.push(`--${name}-${hash}-${i}`)
+  let src = strs
+    .reduce((arr, str, i) => {
+      arr.push(str)
+      if (i !== stubs.length) {
+        // todo - test for preceding @apply
+        let applyMatch = /@apply\s*$/gm.exec(str)
+        if (applyMatch) {
+          arr.push(`--${name}-${hash}-${i}`)
+        } else {
+          arr.push(`var(--${name}-${hash}-${i})`)
+        }
       }
-      else {
-        arr.push(`var(--${name}-${hash}-${i})`)
-      }
-
-    }
-    return arr
-  }, []).join('').trim()
-  let rules = parseCSS(`.${name}-${hash} { --${name}-${hash}: { ${src} }; }`, {nested: false})
+      return arr
+    }, [])
+    .join('')
+    .trim()
+  let rules = parseCSS(`.${name}-${hash} { --${name}-${hash}: { ${src} }; }`, {
+    nested: false
+  })
   let parsed = rules.join('\n')
 
-  return { hash, parsed, stubs, name }
+  return {hash, parsed, stubs, name}
 }
 
-function fragmentinline(path){
+function fragmentinline (path) {
   let code = path.hub.file.code
   let strs = path.node.quasi.quasis.map(x => x.value.cooked)
   let hash = hashArray([...strs]) // todo - add current filename?
   let name = getName(strs.join('xxx')) || 'frag'
 
-  let stubs = path.node.quasi.expressions.map(x => code.substring(x.start, x.end))
+  let stubs = path.node.quasi.expressions.map(x =>
+    code.substring(x.start, x.end)
+  )
   let ctr = 0
 
-  let src = strs.reduce((arr, str, i) => {
-    arr.push(str)
-    if(i !== stubs.length) {
-      // todo - test for preceding @apply
-      let applyMatch = /@apply\s*$/gm.exec(str)
-      if(applyMatch){
-        arr.push(`--${name}-${hash}-${i}`)
+  let src = strs
+    .reduce((arr, str, i) => {
+      arr.push(str)
+      if (i !== stubs.length) {
+        // todo - test for preceding @apply
+        let applyMatch = /@apply\s*$/gm.exec(str)
+        if (applyMatch) {
+          arr.push(`--${name}-${hash}-${i}`)
+        } else arr.push(`var(--${name}-${hash}-${i})`)
       }
-      else arr.push(`var(--${name}-${hash}-${i})`)
-    }
-    return arr
-  }, []).join('').trim()
+      return arr
+    }, [])
+    .join('')
+    .trim()
 
   let rules = parseCSS(`.${name}-${hash} { ${src} }`)
-  rules = rules.map(rule => rule.replace(/@apply\s+--[A-Za-z0-9-_]+-([0-9]+)/gm, (match, p1) => `$\{x${p1}}` ))
-  rules = rules.map(rule => rule.replace(/var\(--[A-Za-z0-9-_]+-([0-9]+)\)/gm, (match, p1) => `$\{x${p1}}` ))
+  rules = rules.map(rule =>
+    rule.replace(
+      /@apply\s+--[A-Za-z0-9-_]+-([0-9]+)/gm,
+      (match, p1) => `$\{x${p1}}`
+    )
+  )
+  rules = rules.map(rule =>
+    rule.replace(
+      /var\(--[A-Za-z0-9-_]+-([0-9]+)\)/gm,
+      (match, p1) => `$\{x${p1}}`
+    )
+  )
 
-
-  let parsed = `(${stubs.map((x, i) => `x${i}`).join(', ')}) => [${rules.map(x => '`' + x + '`').join(',\n')}]`
-  return { hash, parsed, stubs, name }
+  let parsed = `(${stubs.map((x, i) => `x${i}`).join(', ')}) => [${rules
+    .map(x => '`' + x + '`')
+    .join(',\n')}]`
+  return {hash, parsed, stubs, name}
 }
 
-module.exports = function({ types: t }){
+module.exports = function ({types: t}) {
   return {
     visitor: {
       Program: {
-        enter(path, state){
+        enter (path, state) {
           state.injected = false
           let inserted = {}
           state.toInsert = []
           let file = path.hub.file.opts.filename
-          state.inject = function(){
-            if(!state.injected){
+          state.inject = function () {
+            if (!state.injected) {
               state.injected = true
 
               state.toInsert.push('/* do not edit this file */')
@@ -155,22 +194,27 @@ module.exports = function({ types: t }){
               //   let impNode = babylon.parse(src, {sourceType: 'module', plugins: ['*']}).program.body[0]
               //   path.node.body.unshift(impNode)
               // }
-
             }
           }
-          state.insert = function(hash, css){
-            if(!inserted[hash]){
+          state.insert = function (hash, css) {
+            if (!inserted[hash]) {
               inserted[hash] = true
               state.toInsert.push(css)
             }
           }
         },
-        exit(path, state){
+        exit (path, state) {
           let file = path.hub.file.opts.filename
 
           let toWrite = state.toInsert.join('\n').trim()
-          if(!state.opts.inline && state.injected &&  (fs.existsSync(file + '.css') ? (fs.readFileSync(file + '.css', 'utf8') !== toWrite) : true) ){
-            if(!fs.existsSync(file + '.css')) {
+          if (
+            !state.opts.inline &&
+            state.injected &&
+            (fs.existsSync(file + '.css')
+              ? fs.readFileSync(file + '.css', 'utf8') !== toWrite
+              : true)
+          ) {
+            if (!fs.existsSync(file + '.css')) {
               touch.sync(file + '.css')
             }
 
@@ -178,59 +222,56 @@ module.exports = function({ types: t }){
           }
         }
       },
-      TaggedTemplateExpression(path, state){
-        let { tag } = path.node
+      TaggedTemplateExpression (path, state) {
+        let {tag} = path.node
         let code = path.hub.file.code
 
-        if(tag.name === 'css') {
-
+        if (tag.name === 'css') {
           state.inject()
 
-          if(state.opts.inline){
+          if (state.opts.inline) {
             let newSrc
-            let { hash, parsed, stubs, name } = inline(path)
+            let {hash, parsed, stubs, name} = inline(path)
             let cls = `'${name}-${hash}'`
             let vars = `[${stubs.join(', ')}]`
             newSrc = `css(${cls}, ${vars}, ${parsed})`
-            path.replaceWith(babylon.parse(newSrc, { plugins: ['*'] }).program.body[0].expression)
-          }
-          else {
-            let { hash, parsed, stubs, name } = parser(path)
+            path.replaceWith(
+              babylon.parse(newSrc, {plugins: ['*']}).program.body[0].expression
+            )
+          } else {
+            let {hash, parsed, stubs, name} = parser(path)
             state.insert(hash, parsed)
             path.replaceWith(
-              t.callExpression(
-                t.identifier('css'),
-                [
-                  t.stringLiteral(`${name}-${hash}`),
-                  t.arrayExpression(path.node.quasi.expressions)
-                ]
-              )
+              t.callExpression(t.identifier('css'), [
+                t.stringLiteral(`${name}-${hash}`),
+                t.arrayExpression(path.node.quasi.expressions)
+              ])
             )
           }
         }
 
-        if(tag.name === 'fragment'){
-
+        if (tag.name === 'fragment') {
           state.inject()
           let newSrc
           // fragment('frag-[hash]', vars, () => [``])
-          if(state.opts.inline){
-            let { hash, parsed, stubs, name } = fragmentinline(path)
+          if (state.opts.inline) {
+            let {hash, parsed, stubs, name} = fragmentinline(path)
             let cls = `'${name}-${hash}'`
             let vars = `[${stubs.join(', ')}]`
             newSrc = `fragment(${cls}, ${vars}, ${parsed})`
-
-          }
-          else {
-            let { hash, parsed, stubs, name } = fragment(path, {name: 'frag'})
+          } else {
+            let {hash, parsed, stubs, name} = fragment(path, {name: 'frag'})
             state.insert(hash, parsed)
             let cls = `'${name}-${hash}'`
             let vars = `[${stubs.join(', ')}]`
-            newSrc = stubs.length > 0 ? `fragment(${cls}, ${vars})` : `fragment(${cls})`
+            newSrc = stubs.length > 0
+              ? `fragment(${cls}, ${vars})`
+              : `fragment(${cls})`
           }
 
-          path.replaceWith(babylon.parse(newSrc, {plugins: ['*']}).program.body[0].expression)
-
+          path.replaceWith(
+            babylon.parse(newSrc, {plugins: ['*']}).program.body[0].expression
+          )
         }
       }
     }

@@ -1,13 +1,11 @@
 // murmurhash2 via https://gist.github.com/raycmorgan/588423
 
-
-export default function hashArray(arr) {
+export default function hashArray (arr) {
   let str = arr.join(',')
-  return murmur2(str, str.length).toString(36)  
+  return murmur2(str, str.length).toString(36)
 }
 
-
-export function murmur2(str, seed) {
+export function murmur2 (str, seed) {
   let m = 0x5bd1e995
   let r = 24
   let h = seed ^ str.length
@@ -53,23 +51,24 @@ export function murmur2(str, seed) {
   return h >>> 0
 }
 
-function UInt32(str, pos) {
-  return (str.charCodeAt(pos++)) +
-         (str.charCodeAt(pos++) << 8) +
-         (str.charCodeAt(pos++) << 16) +
-         (str.charCodeAt(pos) << 24)
+function UInt32 (str, pos) {
+  return (
+    str.charCodeAt(pos++) +
+    (str.charCodeAt(pos++) << 8) +
+    (str.charCodeAt(pos++) << 16) +
+    (str.charCodeAt(pos) << 24)
+  )
 }
 
-function UInt16(str, pos) {
-  return (str.charCodeAt(pos++)) +
-         (str.charCodeAt(pos++) << 8)
+function UInt16 (str, pos) {
+  return str.charCodeAt(pos++) + (str.charCodeAt(pos++) << 8)
 }
 
-function Umul32(n, m) {
+function Umul32 (n, m) {
   n = n | 0
   m = m | 0
   let nlo = n & 0xffff
   let nhi = n >>> 16
-  let res = ((nlo * m) + (((nhi * m) & 0xffff) << 16)) | 0
+  let res = (nlo * m + (((nhi * m) & 0xffff) << 16)) | 0
   return res
 }
