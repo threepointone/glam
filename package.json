@@ -25,7 +25,7 @@
     "start": "webpack-dev-server",
     "build": "babel src -d lib",
     "umd": "webpack --config webpack.umd.js -p ",
-    "test": "jest",
+    "test": "jest --coverage",
     "snapshot": "npm test -- -u",
     "lint": "standard --fix",
     "format": "prettier-eslint --write \"src/**/*.js\""
