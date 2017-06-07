@@ -36,3 +36,15 @@ const fragB = fragment('frag-8zv2nf', [heightVar]);
 css(\\"css-t2fxs5\\", [frag, fragB]);
 "
 `;
+
+exports[`babel plugin attr kitchen sink 1`] = `
+"
+const cls = css('css-h5t3cu', [margin], x0 => [\`.css-h5t3cu { font-size: 58pt;margin: \${x0}; }\`]);
+const frag = fragment('frag-zzm2ov', [], () => [\`.frag-zzm2ov { padding: 8px; }\`]);
+const fragB = fragment('frag-16v04hq', [heightVar, frag], (x0, x1) => [\`.frag-16v04hq { height: \${x0};\${x1}; }\`]);
+const cls2 = css('arrow-11mrfg4', [frag, fragB], (x0, x1) => [\`.arrow-11mrfg4 { name: arrow;
+       \${x0};
+       \${x1}; 
+       margin: 12px 48px;
+       color: #ffffff; }\`]);"
+`;
