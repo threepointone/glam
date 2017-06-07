@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`1. glam 1`] = `
+"
+css\`
+   margin: 12px 48px;
+   color: #ffffff;
+   height: \${props => props.height * props.scale};
+   display: flex;
+   flex: 1 0 auto;
+   color: blue;
+   width: \${widthVar};
+\`
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+css(\\"css-oxz0pg\\", [props => props.height * props.scale, widthVar]);
+"
+`;
+
+exports[`2. glam 1`] = `
+"
+const frag = fragment\`padding: 8px;\`
+  const fragB = fragment\`height: \${heightVar}\`
+  css\`
+   @apply \${frag};
+   @apply \${fragB}; 
+   margin: 12px 48px;
+   color: #ffffff;
+\`
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+const frag = fragment('frag-zzm2ov');
+const fragB = fragment('frag-8zv2nf', [heightVar]);
+css(\\"css-t2fxs5\\", [frag, fragB]);
+"
+`;
