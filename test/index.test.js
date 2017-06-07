@@ -29,7 +29,7 @@ test('requires css file corresponding to module', () => {
 
 test('injects dynamic values into a sheet', () => {
   flush()
-  let cls = css`color:red; font-weight:${'bold'}`
+  let cls = css`color:red; font-weight:${'bold'};flex:1 0 0;`
   expect(sheet.rules()).toMatchSnapshot()
 })
 

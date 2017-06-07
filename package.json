@@ -10,8 +10,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "autoprefixer": "^6.7.7",
-    "babylon": "^6.17.0",
+    "autoprefixer": "^7.1.1",
+    "babylon": "^6.17.2",
     "styled-components": "^1.4.5",
     "touch": "^1.0.0"
   },

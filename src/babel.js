@@ -23,7 +23,6 @@ function parser (path) {
   let stubs = path.node.quasi.expressions.map(x =>
     code.substring(x.start, x.end)
   )
-  let ctr = 0
 
   let src = strs
     .reduce((arr, str, i) => {
@@ -54,7 +53,6 @@ function inline (path) {
   let stubs = path.node.quasi.expressions.map(x =>
     code.substring(x.start, x.end)
   )
-  let ctr = 0
 
   let src = strs
     .reduce((arr, str, i) => {
@@ -100,7 +98,6 @@ function fragment (path) {
   let stubs = path.node.quasi.expressions.map(x =>
     code.substring(x.start, x.end)
   )
-  let ctr = 0
 
   let src = strs
     .reduce((arr, str, i) => {
@@ -135,7 +132,6 @@ function fragmentinline (path) {
   let stubs = path.node.quasi.expressions.map(x =>
     code.substring(x.start, x.end)
   )
-  let ctr = 0
 
   let src = strs
     .reduce((arr, str, i) => {
@@ -224,7 +220,6 @@ module.exports = function ({types: t}) {
       },
       TaggedTemplateExpression (path, state) {
         let {tag} = path.node
-        let code = path.hub.file.code
 
         if (tag.name === 'css') {
           state.inject()
@@ -239,7 +234,7 @@ module.exports = function ({types: t}) {
               babylon.parse(newSrc, {plugins: ['*']}).program.body[0].expression
             )
           } else {
-            let {hash, parsed, stubs, name} = parser(path)
+            let {hash, parsed, name} = parser(path)
             state.insert(hash, parsed)
             path.replaceWith(
               t.callExpression(t.identifier('css'), [
