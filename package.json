@@ -1,6 +1,6 @@
 {
   "name": "glam",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "description": "css-in-js. again.",
   "main": "lib/index.js",
   "author": "Sunil Pai <threepointone@gmail.com>",
@@ -10,8 +10,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "autoprefixer": "^6.7.7",
-    "babylon": "^6.17.0",
+    "autoprefixer": "^7.1.1",
+    "babylon": "^6.17.2",
     "styled-components": "^1.4.5",
     "touch": "^1.0.0"
   },
@@ -25,7 +25,7 @@
     "start": "webpack-dev-server",
     "build": "babel src -d lib",
     "umd": "webpack --config webpack.umd.js -p ",
-    "test": "jest",
+    "test": "jest --coverage",
     "snapshot": "npm test -- -u",
     "lint": "standard --fix",
     "format": "prettier-eslint --write \"src/**/*.js\""
@@ -34,6 +34,7 @@
     "babel-cli": "^6.24.1",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.0.0",
+    "babel-plugin-tester": "^3.0.0",
     "babel-preset-env": "^1.4.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
