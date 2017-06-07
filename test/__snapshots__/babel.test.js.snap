@@ -1,43 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`1. glam 1`] = `
+exports[`babel plugin inline 1`] = `
 "
-css\`
-   margin: 12px 48px;
-   color: #ffffff;
-   height: \${props => props.height * props.scale};
-   display: flex;
-   flex: 1 0 auto;
-   color: blue;
-   width: \${widthVar};
-\`
-
-      ↓ ↓ ↓ ↓ ↓ ↓
-
-css(\\"css-oxz0pg\\", [props => props.height * props.scale, widthVar]);
-"
+css(\\"css-186afxg\\", [props => props.height * props.scale, widthVar]);"
 `;
 
-exports[`2. glam 1`] = `
+exports[`babel plugin inline 2`] = `
 "
-const frag = fragment\`padding: 8px;\`
-  const fragB = fragment\`height: \${heightVar}\`
-  css\`
-   @apply \${frag};
-   @apply \${fragB}; 
-   margin: 12px 48px;
-   color: #ffffff;
-\`
-
-      ↓ ↓ ↓ ↓ ↓ ↓
-
 const frag = fragment('frag-zzm2ov');
 const fragB = fragment('frag-8zv2nf', [heightVar]);
-css(\\"css-t2fxs5\\", [frag, fragB]);
-"
+css(\\"css-w3wrn8\\", [frag, fragB]);"
 `;
 
-exports[`babel plugin attr kitchen sink 1`] = `
+exports[`babel plugin inline 3`] = `
 "
 const cls = css('css-h5t3cu', [margin], x0 => [\`.css-h5t3cu { font-size: 58pt;margin: \${x0}; }\`]);
 const frag = fragment('frag-zzm2ov', [], () => [\`.frag-zzm2ov { padding: 8px; }\`]);

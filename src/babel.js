@@ -221,18 +221,13 @@ module.exports = function ({types: t}) {
       },
       TaggedTemplateExpression (path, state) {
         let {tag} = path.node
-        console.log(state.opts);
 
         if (tag.name === 'css') {
           state.inject()
 
-          console.log('whoa')
-            console.log(state.opts);
           if (state.opts.inline) {
-            console.log('inline')
             let newSrc
             let {hash, parsed, stubs, name} = inline(path)
-            console.log(parsed)
             let cls = `'${name}-${hash}'`
             let vars = `[${stubs.join(', ')}]`
             newSrc = `css(${cls}, ${vars}, ${parsed})`
