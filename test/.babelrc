@@ -1,4 +1,5 @@
 {
   "presets": ["env", "stage-0", "react"],
-  "plugins": [ [ "../lib/babel.js", { "sync": true } ] ]
+  "plugins": [ [
+    "../lib/babel.js", { "sync": true } ] ]
 }

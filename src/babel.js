@@ -170,6 +170,7 @@ function fragmentinline (path) {
 
 module.exports = function ({types: t}) {
   return {
+    name: 'glam', // not required
     visitor: {
       Program: {
         enter (path, state) {
