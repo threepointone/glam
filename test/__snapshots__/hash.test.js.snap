@@ -1,13 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`hash 1 1`] = `"1yunt80"`;
-
-exports[`hash 2 1`] = `"9p294j"`;
-
-exports[`hash 3 1`] = `"527z82"`;
-
-exports[`hash 4 1`] = `"1bpnzwg"`;
-
 exports[`hash str length: >= 4 1`] = `"1bpnzwg"`;
 
 exports[`hash str length: 1 1`] = `"1yunt80"`;
