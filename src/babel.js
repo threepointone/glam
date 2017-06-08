@@ -266,10 +266,13 @@ module.exports = function ({ types: t }) {
                     const postMatch = rule.substring(cursor)
 
                     quasis.push(
-                      t.templateElement({
-                        raw: postMatch,
-                        cooked: postMatch
-                      }, true)
+                      t.templateElement(
+                        {
+                          raw: postMatch,
+                          cooked: postMatch
+                        },
+                        true
+                      )
                     )
                   }
                   return accum
@@ -283,7 +286,9 @@ module.exports = function ({ types: t }) {
             const inlineExpr = t.functionExpression(
               t.identifier('inlineCss'),
               stubs.map((x, i) => t.identifier(`x${i}`)),
-              t.blockStatement([t.returnStatement(t.arrayExpression(arrayValues))])
+              t.blockStatement([
+                t.returnStatement(t.arrayExpression(arrayValues))
+              ])
             )
 
             path.replaceWith(
