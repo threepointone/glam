@@ -74,13 +74,13 @@ function inline (path) {
   rules = rules.map(rule =>
     rule.replace(
       /@apply\s+--[A-Za-z0-9-_]+-([0-9]+)/gm,
-      (match, p1, index) => `xxx${p1}xxx`
+      (match, p1) => `xxx${p1}xxx`
     )
   )
   rules = rules.map(rule =>
     rule.replace(
       /var\(--[A-Za-z0-9-_]+-([0-9]+)\)/gm,
-      (match, p1, index) => `xxx${p1}xxx`
+      (match, p1) => `xxx${p1}xxx`
     )
   )
 
