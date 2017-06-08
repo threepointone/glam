@@ -1,6 +1,7 @@
 import parseCSS from './parseCSS'
 
 import * as babylon from 'babylon'
+import template from 'babel-template'
 import touch from 'touch'
 import fs from 'fs'
 
@@ -41,7 +42,7 @@ function parser (path) {
   let rules = parseCSS(`.${name}-${hash} { ${src} }`)
   let parsed = rules.join('\n')
 
-  return {hash, parsed, stubs, name}
+  return { hash, parsed, stubs, name }
 }
 
 function inline (path) {
@@ -73,20 +74,17 @@ function inline (path) {
   rules = rules.map(rule =>
     rule.replace(
       /@apply\s+--[A-Za-z0-9-_]+-([0-9]+)/gm,
-      (match, p1) => `$\{x${p1}}`
+      (match, p1, index) => `xxx${p1}xxx`
     )
   )
   rules = rules.map(rule =>
     rule.replace(
       /var\(--[A-Za-z0-9-_]+-([0-9]+)\)/gm,
-      (match, p1) => `$\{x${p1}}`
+      (match, p1, index) => `xxx${p1}xxx`
     )
   )
 
-  let parsed = `(${stubs.map((x, i) => `x${i}`).join(', ')}) => [${rules
-    .map(x => '`' + x + '`')
-    .join(',\n')}]`
-  return {hash, parsed, stubs, name}
+  return { hash, stubs, name, rules }
 }
 
 function fragment (path) {
@@ -120,7 +118,7 @@ function fragment (path) {
   })
   let parsed = rules.join('\n')
 
-  return {hash, parsed, stubs, name}
+  return { hash, parsed, stubs, name }
 }
 
 function fragmentinline (path) {
@@ -165,10 +163,10 @@ function fragmentinline (path) {
   let parsed = `(${stubs.map((x, i) => `x${i}`).join(', ')}) => [${rules
     .map(x => '`' + x + '`')
     .join(',\n')}]`
-  return {hash, parsed, stubs, name}
+  return { hash, parsed, stubs, name }
 }
 
-module.exports = function ({types: t}) {
+module.exports = function ({ types: t }) {
   return {
     name: 'glam', // not required
     visitor: {
@@ -177,7 +175,7 @@ module.exports = function ({types: t}) {
           state.injected = false
           let inserted = {}
           state.toInsert = []
-          let file = path.hub.file.opts.filename
+          // let file = path.hub.file.opts.filename
           state.inject = function () {
             if (!state.injected) {
               state.injected = true
@@ -220,22 +218,83 @@ module.exports = function ({types: t}) {
         }
       },
       TaggedTemplateExpression (path, state) {
-        let {tag} = path.node
+        let { tag } = path.node
 
         if (tag.name === 'css') {
           state.inject()
 
           if (state.opts.inline) {
-            let newSrc
-            let {hash, parsed, stubs, name} = inline(path)
-            let cls = `'${name}-${hash}'`
-            let vars = `[${stubs.join(', ')}]`
-            newSrc = `css(${cls}, ${vars}, ${parsed})`
+            // in:
+            // ['.css-r1aqtk { margin: 12px;\n       color: xxx0xxx;\n       height: xxx1xxx; }']
+            //
+            // out:
+            // css("css-r1aqtk", [colorVar, heightVar], function inlineCss(x0, x1) {
+            //   return [`.css-r1aqtk {
+            //     margin: 12px;
+            //     color: ${x0};
+            //     height: ${x1}; }`];
+            // });
+            let { hash, stubs, rules, name } = inline(path)
+
+            let arrayValues = rules.map(rule => {
+              const re = /xxx(\S)xxx/gm
+              let varMatch
+              let matches = []
+              while ((varMatch = re.exec(rule)) !== null) {
+                matches.push({
+                  value: varMatch[0],
+                  p1: varMatch[1],
+                  index: varMatch.index
+                })
+              }
+
+              let cursor = 0
+              const [quasis, expressions] = matches.reduce(
+                (accum, { value, p1, index }, i) => {
+                  const [quasis, expressions] = accum
+                  const preMatch = rule.substring(cursor, index)
+                  cursor = cursor + preMatch.length + value.length
+                  if (preMatch) {
+                    quasis.push(
+                      t.templateElement({ raw: preMatch, cooked: preMatch })
+                    )
+                  }
+
+                  expressions.push(t.identifier(`x${p1}`))
+
+                  if (i === matches.length - 1 && cursor <= rule.length) {
+                    const postMatch = rule.substring(cursor)
+
+                    quasis.push(
+                      t.templateElement({
+                        raw: postMatch,
+                        cooked: postMatch
+                      }, true)
+                    )
+                  }
+                  return accum
+                },
+                [[], []]
+              )
+
+              return t.templateLiteral(quasis, expressions)
+            })
+
+            const inlineExpr = t.functionExpression(
+              t.identifier('inlineCss'),
+              stubs.map((x, i) => t.identifier(`x${i}`)),
+              t.blockStatement([t.returnStatement(t.arrayExpression(arrayValues))])
+            )
+
             path.replaceWith(
-              babylon.parse(newSrc, {plugins: ['*']}).program.body[0].expression
+              t.callExpression(t.identifier('css'), [
+                t.stringLiteral(`${name}-${hash}`),
+                t.arrayExpression(path.node.quasi.expressions),
+                inlineExpr
+              ])
             )
           } else {
-            let {hash, parsed, name} = parser(path)
+            let { hash, parsed, name } = parser(path)
             state.insert(hash, parsed)
             path.replaceWith(
               t.callExpression(t.identifier('css'), [
@@ -251,12 +310,12 @@ module.exports = function ({types: t}) {
           let newSrc
           // fragment('frag-[hash]', vars, () => [``])
           if (state.opts.inline) {
-            let {hash, parsed, stubs, name} = fragmentinline(path)
+            let { hash, parsed, stubs, name } = fragmentinline(path)
             let cls = `'${name}-${hash}'`
             let vars = `[${stubs.join(', ')}]`
             newSrc = `fragment(${cls}, ${vars}, ${parsed})`
           } else {
-            let {hash, parsed, stubs, name} = fragment(path, {name: 'frag'})
+            let { hash, parsed, stubs, name } = fragment(path, { name: 'frag' })
             state.insert(hash, parsed)
             let cls = `'${name}-${hash}'`
             let vars = `[${stubs.join(', ')}]`
@@ -266,7 +325,7 @@ module.exports = function ({types: t}) {
           }
 
           path.replaceWith(
-            babylon.parse(newSrc, {plugins: ['*']}).program.body[0].expression
+            babylon.parse(newSrc, { plugins: ['*'] }).program.body[0].expression
           )
         }
       }
