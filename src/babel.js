@@ -1,7 +1,6 @@
 import parseCSS from './parseCSS'
 
 import * as babylon from 'babylon'
-import template from 'babel-template'
 import touch from 'touch'
 import fs from 'fs'
 
