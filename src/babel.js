@@ -279,6 +279,13 @@ module.exports = function ({ types: t }) {
                 [[], []]
               )
 
+              if (!matches.length) {
+                return t.templateLiteral(
+                  [t.templateElement({ raw: rule, cooked: rule }, true)],
+                  []
+                )
+              }
+
               return t.templateLiteral(quasis, expressions)
             })
 
