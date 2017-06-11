@@ -6,7 +6,7 @@ const { flush } = require('../src')
 
 describe('babel plugin', () => {
   beforeEach(flush)
-  test('inline', () => {
+  test('normal', () => {
     const basic = `
       css\`
        margin: 12px 48px;
@@ -17,39 +17,41 @@ describe('babel plugin', () => {
        color: blue;
        width: \$\{widthVar\};
     \``
-    const { code } = babel.transform(basic, { plugins: [[glamPlugin, { sync: true }]] })
+    const { code } = babel.transform(basic, {
+      plugins: [[glamPlugin, { sync: true }]]
+    })
     expect(code).toMatchSnapshot()
   })
 
-  test('inline', () => {
+  test('inline simple', () => {
     const basic = `
-      const frag = fragment\`padding: 8px;\`
-      const fragB = fragment\`height: \$\{heightVar\}\`
       css\`
-       @apply \$\{frag\};
-       @apply $\{fragB\}; 
-       margin: 12px 48px;
-       color: #ffffff;
-    \``
-    const { code } = babel.transform(basic, { plugins: [[glamPlugin, { sync: true }]] })
+       margin: 12px;
+       color: \$\{colorVar};
+       height: \$\{heightVar};
+      \`
+    `
+    const { code } = babel.transform(basic, {
+      plugins: [[glamPlugin, { sync: true, inline: true }]]
+    })
     expect(code).toMatchSnapshot()
   })
 
-  test('inline', () => {
+  test('inline kitchen sink', () => {
     const basic = `
       const cls = css\`font-size: 58pt;margin: $\{margin};\`
       const frag = fragment\`padding: 8px;\`
       const fragB = fragment\`height: $\{heightVar};@apply \$\{frag};\`
       const cls2 = css\`
-       name: arrow;
        @apply $\{frag};
        @apply $\{fragB}; 
        margin: 12px 48px;
        color: #ffffff;
       \`
     `
-    const { code } = babel.transform(basic, { plugins: [[glamPlugin, { sync: true, inline: true }]] })
+    const { code } = babel.transform(basic, {
+      plugins: [[glamPlugin, { sync: true, inline: true }]]
+    })
     expect(code).toMatchSnapshot()
   })
 })
-
