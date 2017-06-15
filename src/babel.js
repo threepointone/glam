@@ -1,9 +1,6 @@
 import parseCSS from './parseCSS'
-
-import * as babylon from 'babylon'
 import touch from 'touch'
 import fs from 'fs'
-
 import hashArray from './hash'
 
 function getName (str) {
@@ -12,6 +9,60 @@ function getName (str) {
   if (match) {
     return match[1]
   }
+}
+
+function getArrayValuesFromRules (rules, t) {
+  return rules.map(rule => {
+    const re = /xxx(\S)xxx/gm
+    let varMatch
+    let matches = []
+    while ((varMatch = re.exec(rule)) !== null) {
+      matches.push({
+        value: varMatch[0],
+        p1: varMatch[1],
+        index: varMatch.index
+      })
+    }
+
+    let cursor = 0
+    const [quasis, expressions] = matches.reduce(
+      (accum, {value, p1, index}, i) => {
+        const [quasis, expressions] = accum
+        const preMatch = rule.substring(cursor, index)
+        cursor = cursor + preMatch.length + value.length
+        if (preMatch) {
+          quasis.push(t.templateElement({raw: preMatch, cooked: preMatch}))
+        }
+
+        expressions.push(t.identifier(`x${p1}`))
+
+        if (i === matches.length - 1 && cursor <= rule.length) {
+          const postMatch = rule.substring(cursor)
+
+          quasis.push(
+            t.templateElement(
+              {
+                raw: postMatch,
+                cooked: postMatch
+              },
+              true
+            )
+          )
+        }
+        return accum
+      },
+      [[], []]
+    )
+
+    if (!matches.length) {
+      return t.templateLiteral(
+        [t.templateElement({raw: rule, cooked: rule}, true)],
+        []
+      )
+    }
+
+    return t.templateLiteral(quasis, expressions)
+  })
 }
 
 function parser (path) {
@@ -149,20 +200,17 @@ function fragmentinline (path) {
   rules = rules.map(rule =>
     rule.replace(
       /@apply\s+--[A-Za-z0-9-_]+-([0-9]+)/gm,
-      (match, p1) => `$\{x${p1}}`
+      (match, p1) => `xxx${p1}xxx`
     )
   )
   rules = rules.map(rule =>
     rule.replace(
       /var\(--[A-Za-z0-9-_]+-([0-9]+)\)/gm,
-      (match, p1) => `$\{x${p1}}`
+      (match, p1) => `xxx${p1}xxx`
     )
   )
 
-  let parsed = `(${stubs.map((x, i) => `x${i}`).join(', ')}) => [${rules
-    .map(x => '`' + x + '`')
-    .join(',\n')}]`
-  return { hash, parsed, stubs, name }
+  return { hash, stubs, name, rules }
 }
 
 module.exports = function ({ types: t }) {
@@ -235,59 +283,7 @@ module.exports = function ({ types: t }) {
             // });
             let { hash, stubs, rules, name } = inline(path)
 
-            let arrayValues = rules.map(rule => {
-              const re = /xxx(\S)xxx/gm
-              let varMatch
-              let matches = []
-              while ((varMatch = re.exec(rule)) !== null) {
-                matches.push({
-                  value: varMatch[0],
-                  p1: varMatch[1],
-                  index: varMatch.index
-                })
-              }
-
-              let cursor = 0
-              const [quasis, expressions] = matches.reduce(
-                (accum, { value, p1, index }, i) => {
-                  const [quasis, expressions] = accum
-                  const preMatch = rule.substring(cursor, index)
-                  cursor = cursor + preMatch.length + value.length
-                  if (preMatch) {
-                    quasis.push(
-                      t.templateElement({ raw: preMatch, cooked: preMatch })
-                    )
-                  }
-
-                  expressions.push(t.identifier(`x${p1}`))
-
-                  if (i === matches.length - 1 && cursor <= rule.length) {
-                    const postMatch = rule.substring(cursor)
-
-                    quasis.push(
-                      t.templateElement(
-                        {
-                          raw: postMatch,
-                          cooked: postMatch
-                        },
-                        true
-                      )
-                    )
-                  }
-                  return accum
-                },
-                [[], []]
-              )
-
-              if (!matches.length) {
-                return t.templateLiteral(
-                  [t.templateElement({ raw: rule, cooked: rule }, true)],
-                  []
-                )
-              }
-
-              return t.templateLiteral(quasis, expressions)
-            })
+            let arrayValues = getArrayValuesFromRules(rules, t)
 
             const inlineExpr = t.functionExpression(
               t.identifier('inlineCss'),
@@ -318,26 +314,38 @@ module.exports = function ({ types: t }) {
 
         if (tag.name === 'fragment') {
           state.inject()
-          let newSrc
           // fragment('frag-[hash]', vars, () => [``])
           if (state.opts.inline) {
-            let { hash, parsed, stubs, name } = fragmentinline(path)
-            let cls = `'${name}-${hash}'`
-            let vars = `[${stubs.join(', ')}]`
-            newSrc = `fragment(${cls}, ${vars}, ${parsed})`
+            let { hash, stubs, name, rules } = fragmentinline(path)
+            path.replaceWith(
+              t.callExpression(t.identifier('fragment'), [
+                t.stringLiteral(`${name}-${hash}`),
+                t.arrayExpression(stubs.map(i => t.identifier(i))),
+                t.arrowFunctionExpression(
+                  stubs.map((x, i) => t.identifier(`x${i}`)),
+                  t.arrayExpression(getArrayValuesFromRules(rules, t))
+                )
+              ])
+            )
           } else {
             let { hash, parsed, stubs, name } = fragment(path, { name: 'frag' })
             state.insert(hash, parsed)
-            let cls = `'${name}-${hash}'`
-            let vars = `[${stubs.join(', ')}]`
-            newSrc = stubs.length > 0
-              ? `fragment(${cls}, ${vars})`
-              : `fragment(${cls})`
+            let cls = `${name}-${hash}`
+            if (stubs.length > 0) {
+              path.replaceWith(
+                t.callExpression(t.identifier('fragment'), [
+                  t.stringLiteral(cls),
+                  t.arrayExpression(stubs.map((i) => t.identifier(i)))
+                ])
+              )
+            } else {
+              path.replaceWith(
+                t.callExpression(t.identifier('fragment'), [
+                  t.stringLiteral(cls)
+                ])
+              )
+            }
           }
-
-          path.replaceWith(
-            babylon.parse(newSrc, { plugins: ['*'] }).program.body[0].expression
-          )
         }
       }
     }
