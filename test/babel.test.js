@@ -20,7 +20,7 @@ describe('babel plugin', () => {
        width: \$\{widthVar\};
     \``
     const { code } = babel.transform(basic, {
-      plugins: [[glamPlugin, { sync: true }]],
+      plugins: [[glamPlugin, { sync: false }]],
       filename: path.join(__dirname, './babel.test.1.js'),
       babelrc: false
     })

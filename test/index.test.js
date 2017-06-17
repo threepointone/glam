@@ -23,9 +23,9 @@ test('receives a class and array of var values', () => {
   expect(css`color:red, font-weight:${'bold'}`).toMatchSnapshot()
 })
 
-test.skip('requires css file corresponding to module', () => {
+test('requires css file corresponding to module', () => {
   expect(global.styleMocked).toBe('alphabetaomega')
-}) // ???
+})
 
 test('injects dynamic values into a sheet', () => {
   flush()
