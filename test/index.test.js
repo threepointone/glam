@@ -24,7 +24,7 @@ test('receives a class and array of var values', () => {
 })
 
 test('requires css file corresponding to module', () => {
-  expect(global.styleMocked).toBe('alphabetaomega')
+  expect(global.mockedCssImports['index.test.js.css']).toMatchSnapshot()
 })
 
 test('injects dynamic values into a sheet', () => {

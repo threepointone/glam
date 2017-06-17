@@ -1,1 +1,0 @@
-global.styleMocked = 'alphabetaomega'
