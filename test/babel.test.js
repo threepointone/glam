@@ -29,6 +29,48 @@ describe('babel plugin', () => {
     expect(fs.existsSync(file)).toBe(true)
     expect(fs.readFileSync(file, 'utf8')).toMatchSnapshot()
   })
+  test('dynamic import', () => {
+    const basic = `
+      css\`
+       margin: 12px 48px;
+       color: #ffffff;
+       height: \$\{props => props.height * props.scale\};
+       display: flex;
+       flex: 1 0 auto;
+       color: blue;
+       width: \$\{widthVar\};
+    \``
+    const { code } = babel.transform(basic, {
+      plugins: [[glamPlugin, { sync: false, import: true }]],
+      filename: path.join(__dirname, './babel.test.1.js'),
+      babelrc: false
+    })
+    expect(code).toMatchSnapshot()
+    const file = path.join(__dirname, './babel.test.1.js.css')
+    expect(fs.existsSync(file)).toBe(true)
+    expect(fs.readFileSync(file, 'utf8')).toMatchSnapshot()
+  })
+  test('sync import', () => {
+    const basic = `
+      css\`
+       margin: 12px 48px;
+       color: #ffffff;
+       height: \$\{props => props.height * props.scale\};
+       display: flex;
+       flex: 1 0 auto;
+       color: blue;
+       width: \$\{widthVar\};
+    \``
+    const { code } = babel.transform(basic, {
+      plugins: [[glamPlugin, { sync: true, import: true }]],
+      filename: path.join(__dirname, './babel.test.1.js'),
+      babelrc: false
+    })
+    expect(code).toMatchSnapshot()
+    const file = path.join(__dirname, './babel.test.1.js.css')
+    expect(fs.existsSync(file)).toBe(true)
+    expect(fs.readFileSync(file, 'utf8')).toMatchSnapshot()
+  })
   test('normal kitchen sink', () => {
     const basic = `
       const cls = css\`font-size: 58pt;margin: $\{margin};\`
