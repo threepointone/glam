@@ -1,3 +1,5 @@
+// todo - remove readable classnames when production?
+
 import parseCSS from './parseCSS'
 import touch from 'touch'
 import fs from 'fs'
@@ -68,8 +70,9 @@ function getArrayValuesFromRules (rules, t) {
 function parser (path) {
   let code = path.hub.file.code
   let strs = path.node.quasi.quasis.map(x => x.value.cooked)
-  let hash = hashArray([...strs]) // todo - add current filename?
-  let name = getName(strs.join('xxx')) || 'css'
+  let hash = hashArray(strs) // todo - add current filename?
+  let name = getName(strs.join('xxx'))
+  let prefix = name ? `css-${name}` : 'css'
 
   let stubs = path.node.quasi.expressions.map(x =>
     code.substring(x.start, x.end)
@@ -79,27 +82,28 @@ function parser (path) {
     .reduce((arr, str, i) => {
       arr.push(str)
       if (i !== stubs.length) {
-        // todo - test for preceding @apply
+        
         let applyMatch = /@apply\s*$/gm.exec(str)
         if (applyMatch) {
-          arr.push(`--${name}-${hash}-${i}`)
-        } else arr.push(`var(--${name}-${hash}-${i})`)
+          arr.push(`--${prefix}-${hash}-${i}`) 
+        } else arr.push(`var(--${prefix}-${hash}-${i})`)
       }
       return arr
     }, [])
     .join('')
     .trim()
-  let rules = parseCSS(`.${name}-${hash} { ${src} }`)
+  let rules = parseCSS(`.${prefix}-${hash} { ${src} }`)
   let parsed = rules.join('\n')
 
-  return { hash, parsed, stubs, name }
+  return { hash, parsed, stubs, name, prefix }
 }
 
 function inline (path) {
   let code = path.hub.file.code
   let strs = path.node.quasi.quasis.map(x => x.value.cooked)
-  let hash = hashArray([...strs]) // todo - add current filename?
-  let name = getName(strs.join('xxx')) || 'css'
+  let hash = hashArray(strs) // todo - add current filename?
+  let name = getName(strs.join('xxx'))
+  let prefix = name ? `css-${name}` : 'css'
 
   let stubs = path.node.quasi.expressions.map(x =>
     code.substring(x.start, x.end)
@@ -112,15 +116,15 @@ function inline (path) {
         // todo - test for preceding @apply
         let applyMatch = /@apply\s*$/gm.exec(str)
         if (applyMatch) {
-          arr.push(`--${name}-${hash}-${i}`)
-        } else arr.push(`var(--${name}-${hash}-${i})`)
+          arr.push(`--${prefix}-${hash}-${i}`)
+        } else arr.push(`var(--${prefix}-${hash}-${i})`)
       }
       return arr
     }, [])
     .join('')
     .trim()
 
-  let rules = parseCSS(`.${name}-${hash} { ${src} }`)
+  let rules = parseCSS(`.${prefix}-${hash} { ${src} }`)
   rules = rules.map(rule =>
     rule.replace(
       /@apply\s+--[A-Za-z0-9-_]+-([0-9]+)/gm,
@@ -134,14 +138,15 @@ function inline (path) {
     )
   )
 
-  return { hash, stubs, name, rules }
+  return { hash, stubs, name, rules, prefix }
 }
 
 function fragment (path) {
   let code = path.hub.file.code
   let strs = path.node.quasi.quasis.map(x => x.value.cooked)
-  let hash = hashArray([...strs]) // todo - add current filename?
-  let name = getName(strs.join('xxx')) || 'frag'
+  let hash = hashArray(strs) // todo - add current filename?
+  let name = getName(strs.join('xxx'))
+  let prefix = name ? `frag-${name}` : 'frag'
 
   let stubs = path.node.quasi.expressions.map(x =>
     code.substring(x.start, x.end)
@@ -154,28 +159,29 @@ function fragment (path) {
         // todo - test for preceding @apply
         let applyMatch = /@apply\s*$/gm.exec(str)
         if (applyMatch) {
-          arr.push(`--${name}-${hash}-${i}`)
+          arr.push(`--${prefix}-${hash}-${i}`)
         } else {
-          arr.push(`var(--${name}-${hash}-${i})`)
+          arr.push(`var(--${prefix}-${hash}-${i})`)
         }
       }
       return arr
     }, [])
     .join('')
     .trim()
-  let rules = parseCSS(`.${name}-${hash} { --${name}-${hash}: { ${src} }; }`, {
+  let rules = parseCSS(`.${prefix}-${hash} { --${prefix}-${hash}: { ${src} }; }`, {
     nested: false
   })
   let parsed = rules.join('\n')
 
-  return { hash, parsed, stubs, name }
+  return { hash, parsed, stubs, name, prefix }
 }
 
 function fragmentinline (path) {
   let code = path.hub.file.code
   let strs = path.node.quasi.quasis.map(x => x.value.cooked)
-  let hash = hashArray([...strs]) // todo - add current filename?
-  let name = getName(strs.join('xxx')) || 'frag'
+  let hash = hashArray(strs) // todo - add current filename?
+  let name = getName(strs.join('xxx'))
+  let prefix = name ? `frag-${name}` : 'frag'
 
   let stubs = path.node.quasi.expressions.map(x =>
     code.substring(x.start, x.end)
@@ -188,15 +194,15 @@ function fragmentinline (path) {
         // todo - test for preceding @apply
         let applyMatch = /@apply\s*$/gm.exec(str)
         if (applyMatch) {
-          arr.push(`--${name}-${hash}-${i}`)
-        } else arr.push(`var(--${name}-${hash}-${i})`)
+          arr.push(`--${prefix}-${hash}-${i}`)
+        } else arr.push(`var(--${prefix}-${hash}-${i})`)
       }
       return arr
     }, [])
     .join('')
     .trim()
 
-  let rules = parseCSS(`.${name}-${hash} { ${src} }`)
+  let rules = parseCSS(`.${prefix}-${hash} { ${src} }`)
   rules = rules.map(rule =>
     rule.replace(
       /@apply\s+--[A-Za-z0-9-_]+-([0-9]+)/gm,
@@ -210,7 +216,7 @@ function fragmentinline (path) {
     )
   )
 
-  return { hash, stubs, name, rules }
+  return { hash, stubs, name, rules, prefix }
 }
 
 module.exports = function ({ types: t }) {
@@ -281,7 +287,7 @@ module.exports = function ({ types: t }) {
             //     color: ${x0};
             //     height: ${x1}; }`];
             // });
-            let { hash, stubs, rules, name } = inline(path)
+            let { hash, stubs, rules, name, prefix } = inline(path)
 
             let arrayValues = getArrayValuesFromRules(rules, t)
 
@@ -291,21 +297,21 @@ module.exports = function ({ types: t }) {
               t.blockStatement([
                 t.returnStatement(t.arrayExpression(arrayValues))
               ])
-            )
+            )            
 
             path.replaceWith(
               t.callExpression(t.identifier('css'), [
-                t.stringLiteral(`${name}-${hash}`),
+                t.stringLiteral(`${prefix}-${hash}`),
                 t.arrayExpression(path.node.quasi.expressions),
                 inlineExpr
               ])
             )
           } else {
-            let { hash, parsed, name } = parser(path)
+            let { hash, parsed, name, prefix } = parser(path)
             state.insert(hash, parsed)
             path.replaceWith(
               t.callExpression(t.identifier('css'), [
-                t.stringLiteral(`${name}-${hash}`),
+                t.stringLiteral(`${prefix}-${hash}`),
                 t.arrayExpression(path.node.quasi.expressions)
               ])
             )
@@ -316,10 +322,10 @@ module.exports = function ({ types: t }) {
           state.inject()
           // fragment('frag-[hash]', vars, () => [``])
           if (state.opts.inline) {
-            let { hash, stubs, name, rules } = fragmentinline(path)
+            let { hash, stubs, name, rules, prefix } = fragmentinline(path)
             path.replaceWith(
               t.callExpression(t.identifier('fragment'), [
-                t.stringLiteral(`${name}-${hash}`),
+                t.stringLiteral(`${prefix}-${hash}`),
                 t.arrayExpression(stubs.map(i => t.identifier(i))),
                 t.arrowFunctionExpression(
                   stubs.map((x, i) => t.identifier(`x${i}`)),
@@ -328,9 +334,9 @@ module.exports = function ({ types: t }) {
               ])
             )
           } else {
-            let { hash, parsed, stubs, name } = fragment(path, { name: 'frag' })
+            let { hash, parsed, stubs, name, prefix } = fragment(path)
             state.insert(hash, parsed)
-            let cls = `${name}-${hash}`
+            let cls = `${prefix}-${hash}`
             if (stubs.length > 0) {
               path.replaceWith(
                 t.callExpression(t.identifier('fragment'), [

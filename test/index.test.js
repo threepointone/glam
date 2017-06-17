@@ -12,6 +12,10 @@ test('returns a class for a string', () => {
   expect(css`color:red`).toMatchSnapshot()
 })
 
+test('generates readable classnames', () => {
+  expect(css` color: red; name: whatup;`).toMatchSnapshot()
+})
+
 test('returns 2 classes for a dynamic string', () => {
   expect(css`color:red, font-weight:${'bold'}`).toMatchSnapshot()
 })

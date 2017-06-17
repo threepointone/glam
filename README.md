@@ -111,7 +111,7 @@ let cls = css`
   name: big;
   font-size: 40px;
 `
-// big-f8xd3
+// css-big-f8xd3
 ```
 
 motivation
@@ -210,7 +210,6 @@ todo
 - custom postcss pipeline
 - source maps?
 - typed om?
-- SC api?
 - unload styles?
 - hot loading support 
 - test inheritance chains 

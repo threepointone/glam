@@ -14,6 +14,8 @@ exports[`extracts css into a css file 1`] = `
 .css-gjw345 { color: red; font-weight: var(--css-gjw345-0);-webkit-flex: 1 0 0;-ms-flex: 1 0 0;flex: 1 0 0; }"
 `;
 
+exports[`generates readable classnames 1`] = `"css-whatup-1xwk7zl"`;
+
 exports[`injects dynamic values into a sheet 1`] = `Array []`;
 
 exports[`receives a class and array of var values 1`] = `
