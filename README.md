@@ -159,12 +159,15 @@ glam can 'polyfill' for browsers that don't support css vars and / or `@apply`.
 fancy! you could then generate separate bundles targeting different browsers.
 
 - `inline` - bool - default `false`
+- `import` - bool - default `false` - import the generated css file
+- `sync` - bool - default `false` - add [import statements](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) instead of [dynamic imports](https://github.com/tc39/proposal-dynamic-import)
 
 
 loading css 
 ---
 
-add `require('./path/to/file.js.css')` statements as required. 
+use the plugin option `import` with sync `true` or `false` for [import statements](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) vs [dynamic imports](https://github.com/tc39/proposal-dynamic-import) respectively or manually add
+`require('./path/to/file.js.css')` statements. 
 some options to bundle and serve this css - 
 
 - use a classic webpack combo: `style-loader`/`css-loader`
