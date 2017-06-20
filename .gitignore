@@ -18,6 +18,7 @@ xcuserdata
 CVS
 node_modules
 lib
+es
 example/*bundle*
 dist
 
