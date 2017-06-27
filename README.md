@@ -1,3 +1,5 @@
+DEPRECATED - this has beem merged into [emotion](https://github.com/tkh44/emotion), use that instead
+
 # glam
 
 [![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
