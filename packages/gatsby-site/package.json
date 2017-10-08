@@ -6,7 +6,9 @@
   "dependencies": {
     "gatsby": "^1.9.45",
     "gatsby-link": "^1.6.17",
-    "gatsby-plugin-react-helmet": "^1.0.5"
+    "gatsby-plugin-react-helmet": "^1.0.5",
+    "gatsby-react-router-scroll": "^1.0.2",
+    "react-router-dom": "^4.2.2"
   },
   "keywords": [
     "gatsby"
