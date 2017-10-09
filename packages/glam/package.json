@@ -1,13 +1,13 @@
 {
   "name": "glam",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "inline css for your jsx",
   "main": "lib/index.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "build": "babel src -d lib ",
+    "build": "babel src -d lib",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
