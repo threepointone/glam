@@ -56,7 +56,7 @@ composition
 - objects everywhere
 - nested selectors
 - arrays to join efficiently
-- whatever pattern you want on top - Bem, itcss, oocss, whatever
+- whatever pattern you want on top - bem, itcss, oocss, sc, jsxstyle, whatever
 
 
 debugging / tools / dx
