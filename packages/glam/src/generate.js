@@ -128,6 +128,7 @@ function toCSSArray(id: string, parsed: Object) {
   return css;
 }
 
+// todo - if server side, then cache on classname
 export default function generate({
   className,
   parsed,

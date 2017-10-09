@@ -1,14 +1,16 @@
 glam
 ---
 
+[work in progress]
+
 “It's like giving a glass of ice water to somebody in hell"
 
 `yarn add glam` or `npm install glam`
 
 ```jsx
-// copy paste this
-/* @jsx ele */
-import ele from 'glam'
+// copy paste this at the top of your file
+/* @jsx glam */
+import glam from 'glam'
 
 // and then write css as inline objects
 
@@ -23,6 +25,18 @@ import ele from 'glam'
 ```
 
 
+motivation
+---
+
+I made it for me. You might like it. It's the core experience of glamor, trimmed down and optimised for react.
+
+- fast, small
+- great for prototyping / design systems
+- objects everywhere
+- compose with arrays
+- 'just works' with react v16
+- easy to migrate to/from another system
+
 
 object format
 ---
@@ -32,65 +46,65 @@ object format
 - `<selector> : {...}`
 - `@media <query>: {...}`
 - `@supports: {...}`
+- (todo) `@keyframes: {...}`
+- (todo) `@font-face: {...}`
 - nest it however you want
 
 
-motivation
+composition
 ---
 
-I made it for me. You might like it.
-
-- jsx
-- fast, small
-- future facing
-- there's no api
-- great for prototyping
-- consume design systems
 - objects everywhere
-- compose with arrays
-- easily pull out and replace
-- no more global caches!
+- nested selectors
+- arrays to join efficiently
+- whatever pattern you want on top - Bem, itcss, oocss, whatever
+
+
+debugging / tools / dx
+---
+
+[todo]
+
 
 tradeoffs
 ---
 
-- memory - WeakMap cache, insertion Set per context
-- runtime  < 7k
+- memory
+- runtime < 8k
 - learning curve
+
+
+how does it work?
+---
+
+[todo]
+
 
 how is it different
 ---
 
+- typed
 - streaming ssr support
-- iframes
-- wc (via skate?)
-- scoped-sheets
-- safe
+- (todo) iframes
+- (todo) wc (via skate?)
+- (todo) safe
 
-todo
+
+server rendering
 ---
-- ~ - flow typed
-- deduped
-- themable
-- safe (xss)
-- debuggable
-- critical
-- progressive
 
-- typescript?
-- reason?
-- postcss?
-- iframes/wc
+[todo]
+
+
+
+[wip]
+---
+
+- `global`
 - react-native? vr?
 - static extraction?
-- glamor shim? (return stringable arrays)
-- unmount styles?
-- `global`
-- `fonts`
-- `animations`
 - `scoped`?
 - 'virtual'?
-- styled-system support?
-- plugins (render/generate)?
+- parser/generator plugins?
 - houdini?
 - reset.css

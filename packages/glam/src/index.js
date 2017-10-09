@@ -65,7 +65,7 @@ class Styled extends React.Component<Props> {
       }
       this.glam.tag(ast.className);
 
-      this.flush = () => this.glam.insert(ast);
+      this.flush = () => this.glam.insert(ast); // you already have this content via `$([data-glam='${cls}'])`
       const generated = generate(ast).join('');
 
       return generated

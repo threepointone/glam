@@ -73,6 +73,7 @@ export default class StyleSheet {
     tag.type = 'text/css';
     tag.setAttribute('data-glamor', '');
     tag.appendChild(this.document.createTextNode(''));
+    // todo - use a reference node
     (this.document.head || this.document.getElementsByTagName('head')[0]
     ).appendChild(tag);
     return tag;
