@@ -131,10 +131,23 @@ export function createMarkupForStyles(styles, component) {
     }
     if (styleValue != null) {
       if (isCustomProp) {
-        serialized += `${styleName}:${styleValue};`
+        if (styleValue instanceof Array) {
+          for (let i = 0; i < styleValue.length; i++) {
+            serialized += `${styleName}:${styleValue[i]};`
+          }
+        } else {
+          serialized += `${styleName}:${styleValue};`
+        }
       } else {
-        serialized += processStyleName(styleName) + ':'
-        serialized += dangerousStyleValue(styleName, styleValue, component) + ';'
+        if (styleValue instanceof Array) {
+          for (let i = 0; i < styleValue.length; i++) {
+            serialized += processStyleName(styleName) + ':'
+            serialized += dangerousStyleValue(styleName, styleValue[i], component) + ';'
+          }
+        } else {
+          serialized += processStyleName(styleName) + ':'
+          serialized += dangerousStyleValue(styleName, styleValue, component) + ';'
+        }
       }
     }
   }
